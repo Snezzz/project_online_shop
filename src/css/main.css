@@ -1,0 +1,206 @@
+header{
+  border: 2px solid black;
+  background-color: #b3d4fc;
+}
+.row{
+  height: 100%;
+}
+footer{
+  bottom: 0;
+  border: 2px solid black;
+}
+.container-fluid{
+  position: static !important;
+}
+.search .form-inline .form-control{
+  float: left;
+  width: 60% !important;
+}
+.search{
+  top:25%;
+}
+.for_chat{
+  position: fixed;
+  bottom:1px;
+}
+#chat{
+  position: relative;
+}
+.chat_body{
+  display: none;
+  position: relative;
+  height:  200px;
+  border-radius: 12px;
+}
+aside{
+  position: relative;
+}
+.logotype {
+  position: relative;
+  top: 10px;
+  width: 60%;
+  height: 80%;
+  border-radius: 100px;
+}
+.icon{
+  width: 15%;
+}
+.action img{
+  position: relative;
+  margin-top: 12px;
+}
+main{
+  position: relative;
+  margin: auto;
+  width: 20%;
+}
+footer ul{
+  list-style-type: none;
+}
+.contacts ul{
+  display: flex;
+}
+.contacts li img{
+  width: 30px;
+}
+.variants li{
+  list-style-type: none;
+  position: relative;
+  right:0;
+ /* left:40%;*/
+}
+.content{
+  margin: 2px 0 10px 0 ;
+}
+.description{
+  margin-top: 20px;
+}
+.item img{
+  width: 500px;
+  height: 500px;
+}
+.item .description{
+  position: relative;
+  display: flex;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+.item{
+  display: flex;
+}
+.content .item:nth-child(2n) .description{
+  position: relative;
+  margin: 20px 0 0 auto;
+}
+.variants li a{
+  text-decoration: none;
+  color: sandybrown;
+  font-weight: 900;
+}
+.nav-pills{
+ background-color: #222222;
+}
+.menu{
+  display: inline;
+  margin: 12px 12px 12px 12px;
+  background-color: #222222;
+}
+.menu li a{
+  color: white;
+}
+
+#female{
+  position: relative;
+  left:200px;
+}
+
+
+.dropdown-submenu{
+  position:relative;
+}
+.dropdown-submenu > .dropdown-menu
+{
+  top:10%;
+  left:102%; /* отступ выпадающего подменю от родительского*/
+  margin-top:-6px;
+  margin-left:-1px;
+  -webkit-border-radius:0 6px 6px 6px;
+  -moz-border-radius:0 6px 6px 6px;
+  border-radius:0 6px 6px 6px;
+}
+/* показываем при наведении */
+.dropdown-submenu:hover > .dropdown-menu{
+  display:block;
+}
+
+.dropdown-submenu > a:after{
+  display:block;
+  content:" ";
+  float:right;
+  width:0;
+  height:0;
+  border-color:transparent;
+  border-style:solid;
+  border-width:5px 0 5px 5px;
+  border-left-color:#cccccc;
+  margin-top:5px;
+  margin-right:-10px;
+}
+
+.dropdown-submenu:hover > a:after{
+  border-left-color:#ffffff;
+}
+
+.dropdown-submenu .pull-left{
+  float:none;
+}
+
+.dropdown-submenu.pull-left > .dropdown-menu{
+  left:-100%;
+  margin-left:10px;
+  -webkit-border-radius:6px 0 6px 6px;
+  -moz-border-radius:6px 0 6px 6px;
+  border-radius:6px 0 6px 6px;
+}
+
+.root:hover .dropdown-menu{
+  display: block;
+}
+.nav-item:hover>.dropdown-menu{
+  display: block;
+}
+.login {
+  display: none;
+  position: fixed;
+  top: 30%;
+  left: 40%;
+  border: 1px solid black;
+  border-radius: 10%;
+  background-color: #d5a085;
+  /* IE9, iOS 3.2+ */
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxsaW5lYXJHcmFkaWVudCBpZD0idnNnZyIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIHN0b3AtY29sb3I9IiNmZWYxOTYiIHN0b3Atb3BhY2l0eT0iMSIgb2Zmc2V0PSIwIi8+PHN0b3Agc3RvcC1jb2xvcj0iI2FjNGY3MyIgc3RvcC1vcGFjaXR5PSIxIiBvZmZzZXQ9IjEiLz48L2xpbmVhckdyYWRpZW50PjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjdnNnZykiIC8+PC9zdmc+);
+  background-image: -webkit-gradient(linear, 0% 0%, 100% 100%,color-stop(0, rgb(254, 241, 150)),color-stop(1, rgb(172, 79, 115)));
+  /* Android 2.3 */
+  background-image: -webkit-repeating-linear-gradient(top left,rgb(254, 241, 150) 0%,rgb(172, 79, 115) 100%);
+  /* IE10+ */
+  background-image: repeating-linear-gradient(to bottom right,rgb(254, 241, 150) 0%,rgb(172, 79, 115) 100%);
+  background-image: -ms-repeating-linear-gradient(top left,rgb(254, 241, 150) 0%,rgb(172, 79, 115) 100%);
+}
+.login>a{
+  position:absolute;
+  right:0;
+  margin: 8px 8px 2px 2px;
+  color:white;
+  border: 1px solid black;
+  background-color: #222222;
+}
+.form-group{
+  position:relative;
+  margin:20px 20px 20px 20px;
+}
+div .form-group label{
+  float:left;
+}
+.form-group:nth-child(5) {
+  text-align:right;
+}
