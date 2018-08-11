@@ -72,14 +72,66 @@ function from(data,obj) {
   }
 }
 
+
+new CreateForm(action)
+var previous_variant="";
+function CreateForm(elem) {
+
+  //вход в систему
+  this.login=function(){
+    load('login');
+    new GetAndCancel(login);
+  };
+  //регистрация
+  this.registration=function(){
+    load('registration');
+    new GetAndCancel(registration);
+  };
+  //корзина
+  this.basket=function(){
+    load('backet');
+  };
+  var obj=this;
 //login
-$(".variants li, .login a").on("click",function () {
-  $(".login").toggle("puff",{percent:200},400);
-  return false;
-});
-$(".login a").mouseover(function () {
-  $(this).css("color","red");
-}).mouseout(function () {
-  $(this).css("color","")});
+  $(elem).on("click",function (e) {
+    var target=e.target;
+    if((target.tagName!='LI')&&(target.tagName!='A'))
+      return false;
+    var variant=$(target).attr("data-type");
+    if((previous_variant!="")&&(variant==previous_variant)){
+      $(".login").toggle("puff",{percent:200},400);
+      return false;
+    }
+    if(variant){
+      obj[variant]();
+    }
+    previous_variant=variant;
+    $(".login").effect("puff",{percent:200,mode:"show"},400);
 
+  });
+}
+//загрузка
+function load(url) {
+  $(".login").attr("id",url);
 
+  $.ajax({
+    url: url+".html",
+    success:function (html) {
+      $(".login").html(html);
+
+      $(".login a").on("click",function () {
+        //  $(".form-group span").animate({opacity:"toggle"},300);
+        $(".login").toggle("puff",{percent:200},400);
+        return false;
+      }).mouseover(function () {
+        $(this).css("color","red");
+      }).mouseout(function () {
+        $(this).css("color","")});
+
+    },
+    error:function(jqXHR,textStatus,errorThrown){
+      alert("bad news!"+textStatus+errorThrown)
+    }
+  });
+
+}

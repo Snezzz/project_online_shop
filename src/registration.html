@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+  <a href="" id="exit" class="badge badge-secondar">X</a>
+  <div class="form-group">
+    <label for="user_name">Имя:</label>
+    <input type="text" class="form-control" id="user_name" data-item="name" placeholder="Вася" required
+           autocomplete="off">
+  </div>
+  <div class="form-group">
+    <label for="user_sirname">Фамилия:</label>
+    <input type="text" class="form-control" id="user_sirname" data-item="sirname" placeholder="Логиненко" required
+           autocomplete="off">
+  </div>
+  <div class="form-group">
+    <label for="user_email">Email:</label>
+    <input type="email" class="form-control" id="user_email" data-item="email" placeholder="name@example.com" required
+    autocomplete="off">
+    <span id="warning">Такой пользователь уже существует!</span>
+  </div>
+  <div class="form-group">
+    <label for="user_password">Password:</label>
+    <input type="password" class="form-control" id="user_password" data-item="password" required
+           autocomplete="off">
+    <span id="success">&#9989</span>
+    <span id="min_length">Минимум 8 символов!</span>
+  </div>
+  <div class="form-group">
+    <label for="user_password_repeat">Повторите пароль:</label>
+    <input type="password" class="form-control" id="user_password_repeat"  required
+           autocomplete="off">
+    <span id="error">Пароли не совпадают!</span>
+  </div>
+
+  <div class="form-group">
+    <button class="btn btn-outline-warning" data-type="cancel">Очистить</button>
+    <button class="btn btn-outline-success" data-type="send" type="submit">Зарегистрироваться</button>
+  </div>
+<script src="js/search.js"></script>

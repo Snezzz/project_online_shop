@@ -19,7 +19,6 @@
 </head>
 
 <body>
-
   <div class="container-fluid">
     <div class="row">
 
@@ -36,19 +35,20 @@
            </form>
            </nav>
          </div>
-         <div class="col-12 col-xs-2 col-sm-2 col-md-3 col-lg-3 col-xl-3 action">
+         <div class="col-12 col-xs-2 col-sm-2 col-md-3 col-lg-3 col-xl-3 action" id="action">
            <ul class="variants">
            <li>
-             <img class='icon' src="https://cdn3.iconfinder.com/data/icons/social-media-2125/80/enter-128.png">
-             <a href="" onclick="return false">Log in</a>
+             <img class='icon' src="https://cdn3.iconfinder.com/data/icons/social-media-2125/80/enter-128.png" data-type="login">
+             <a href="" onclick="return false" data-type="login">Log in</a>
            </li>
          <li>
-           <img class='icon' src="https://cdn1.iconfinder.com/data/icons/freeline/32/lock_locked_log_login_padlock_password_private_protection_register_registration_registry_safe_safety_secret_secure_security-128.png">
-           <a href="">Registration</a>
+           <img class='icon' src="https://cdn1.iconfinder.com/data/icons/freeline/32/lock_locked_log_login_padlock_password_private_protection_register_registration_registry_safe_safety_secret_secure_security-128.png" data-type="registration">
+           <a href="" onclick="return false" data-type="registration">Registration</a>
          </li>
          <li>
-           <img class='icon' src="https://cdn4.iconfinder.com/data/icons/thefreeforty/30/thefreeforty_basket-128.png">
-           <a href="">Корзина</a>
+           <img class='icon' src="https://cdn4.iconfinder.com/data/icons/thefreeforty/30/thefreeforty_basket-128.png"
+                data-type="backet">
+           <a href="" onclick="return false" data-type="backet">Корзина</a>
          </li>
          </ul>
         </div>
@@ -169,28 +169,9 @@
     </div>
   </div>
   <form class="login">
-    <a href="" class="badge badge-secondar">X</a>
-    <div class="form-group">
-      <label for="user_email">Email:</label>
-      <input type="email" class="form-control" id="user_email" placeholder="name@example.com">
-    </div>
-    <div class="form-group">
-      <label for="user_password">Password:</label>
-      <input type="password" class="form-control" id="user_password">
-    </div>
-    <div class="form-group">
-        <div class="form-check">
-          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox"> Remember me
-          </label>
-      </div>
-      <a href="">Забыли пароль?</a>
-    </div>
-    <div class="form-group">
-      <button class="btn btn-outline-warning" type="submit">Очистить</button>
-      <button class="btn btn-outline-success" type="submit">Log in</button>
-    </div>
   </form>
+
   <script src="js/main.js"></script>
+  <script src="js/work_with_user.js"></script>
 </body>
 </html>

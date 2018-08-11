@@ -169,9 +169,44 @@ footer ul{
 .nav-item:hover>.dropdown-menu{
   display: block;
 }
+::-webkit-scrollbar-button {
+  background-repeat:no-repeat;
+  width:5px;
+  height:60px;
+}
+
+::-webkit-scrollbar-track {
+  background-color:#ecedee;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 0px;
+  border-radius: 20px;
+  background-color: rgba(140, 233, 106, 0.59);
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background-color:#56999f;
+}
+
+::-webkit-resizer{
+  background-repeat:no-repeat;
+  width:4px;
+  height:0px
+}
+
+::-webkit-scrollbar{
+  width:12px;
+  position: absolute;
+  right:20px;
+}
 .login {
   display: none;
+  resize: none;
   position: fixed;
+  overflow-y:auto;
+  height: 391px;
   top: 30%;
   left: 40%;
   border: 1px solid black;
@@ -201,6 +236,17 @@ footer ul{
 div .form-group label{
   float:left;
 }
-.form-group:nth-child(5) {
+#login .form-group:nth-child(5) {
   text-align:right;
+}
+.form-group input:invalid{
+  color:red;
+}
+
+.form-group span{
+  word-wrap: break-word;
+  color: red
+}
+#error,#warning,#min_length,#success,#check{
+  display: none;
 }
