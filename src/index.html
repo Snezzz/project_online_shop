@@ -50,6 +50,11 @@
                 data-type="backet">
            <a href="" onclick="return false" data-type="backet">Корзина</a>
          </li>
+             <li>
+               <img class='icon' src="https://cdn4.iconfinder.com/data/icons/thefreeforty/30/thefreeforty_basket-128.png"
+                    data-type="cabinet">
+               <a href="" onclick="return false" data-type="cabinet">Личный кабинет</a>
+             </li>
          </ul>
         </div>
        </div>
@@ -59,6 +64,7 @@
       <div class="row">
         <div class="col-12 col-xs-2 col-sm-2 col-md-3 col-lg-2 col-xl-2">
           </div>
+        <!-- середина-->
         <div class="col-12 col-xs-2 col-sm-2 col-md-3 col-lg-8 col-xl-8">
           <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
@@ -77,31 +83,17 @@
             </a>
           </div>
 
-      <div class="content">
+          <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Главная</a>
+            </li>
 
-        <ul class="nav nav-pills">
-          <li class="nav-item">
-            <a class="nav-link active" href="#">Главная</a>
-          </li>
-
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
-               role="button" aria-haspopup="true" aria-expanded="false">Каталог</a>
-            <ul class="dropdown-menu">
-              <li class="dropdown-submenu"> <a class="nav dropdown-toggle"  tabindex="-1" href="#">Женская обувь</a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Летний сезон</a>
-                </li>
-                  <li><a href="#">Зимний сезон</a>
-                </li>
-                  <li><a href="#">Весенний сезон</a>
-                  </li>
-                  <li><a href="#">Осенний сезон</a>
-                  </li>
-                  </ul>
-              </li>
-              <li class="dropdown-submenu"> <a class="nav dropdown-toggle"  tabindex="-1" href="#">Мужская обувь</a>
-                <ul class="dropdown-menu">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle"  data-toggle="dropdown" href="#"
+                 role="button" aria-haspopup="true" aria-expanded="false">Каталог</a>
+              <ul class="dropdown-menu" id="category">
+                <li class="dropdown-submenu" > <a class="nav dropdown-toggle" id="female_category" tabindex="-1" href="#">Женская обувь</a>
+                  <ul class="dropdown-menu">
                     <li><a href="#">Летний сезон</a>
                     </li>
                     <li><a href="#">Зимний сезон</a>
@@ -110,25 +102,46 @@
                     </li>
                     <li><a href="#">Осенний сезон</a>
                     </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu"> <a class="nav dropdown-toggle"  id="male_category" tabindex="-1" href="#">Мужская обувь</a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#">Летний сезон</a>
+                    </li>
+                    <li><a href="#">Зимний сезон</a>
+                    </li>
+                    <li><a href="#">Весенний сезон</a>
+                    </li>
+                    <li><a href="#">Осенний сезон</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="#">Информация</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Контакты</a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Информация</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Контакты</a>
+            </li>
 
 
-        </ul>
-</div>
+          </ul>
       </div>
         <div class="col-12 col-xs-2 col-sm-2 col-md-3 col-lg-2 col-xl-2">
         </div>
+
+      <div class="col-12 col-xs-2 col-sm-2 col-md-3 col-lg-2 col-xl-2"  id="left_panel">
+      </div>
+      <div class="col-12 col-xs-2 col-sm-2 col-md-8 col-lg-8 col-xl-8">
+        <!-- меню-->
+      <div class="content">
+      </div>
         </div>
+      <div class="col-12 col-xs-2 col-sm-2 col-md-3 col-lg-2 col-xl-2">
+      </div>
+      </div>
       <aside>
         <div class="for_chat">
           <div class="chat_body">eme</div>
@@ -170,7 +183,6 @@
   </div>
   <form class="login">
   </form>
-
   <script src="js/main.js"></script>
   <script src="js/work_with_user.js"></script>
 </body>

@@ -109,10 +109,6 @@ footer ul{
   color: white;
 }
 
-#female{
-  position: relative;
-  left:200px;
-}
 
 
 .dropdown-submenu{
@@ -242,11 +238,19 @@ div .form-group label{
 .form-group input:invalid{
   color:red;
 }
-
+.carousel-inner{
+  height: 300px;
+}
 .form-group span{
   word-wrap: break-word;
   color: red
 }
 #error,#warning,#min_length,#success,#check{
   display: none;
+}
+#female div ul li{
+  list-style-type: none;
+}
+#goods{
+
 }

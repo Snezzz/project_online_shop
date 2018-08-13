@@ -1,6 +1,5 @@
-$(document).on("ready",function () {
+//загружаем контент
  get_content();
-})
 //позиционирование панели помощи
 var left=false;
 $(window).on("scroll",function(){
@@ -81,16 +80,21 @@ function CreateForm(elem) {
   this.login=function(){
     load('login');
     new GetAndCancel(login);
+    $(".login").effect("puff",{percent:200,mode:"show"},400);
   };
   //регистрация
   this.registration=function(){
     load('registration');
     new GetAndCancel(registration);
+    $(".login").effect("puff",{percent:200,mode:"show"},400);
   };
   //корзина
   this.basket=function(){
     load('backet');
   };
+  this.cabinet=function () {
+    load_page('cabinet','#left_panel')
+  }
   var obj=this;
 //login
   $(elem).on("click",function (e) {
@@ -106,7 +110,7 @@ function CreateForm(elem) {
       obj[variant]();
     }
     previous_variant=variant;
-    $(".login").effect("puff",{percent:200,mode:"show"},400);
+    return false;
 
   });
 }
@@ -133,5 +137,60 @@ function load(url) {
       alert("bad news!"+textStatus+errorThrown)
     }
   });
-
 }
+
+function load_page(url,where) {
+  $.ajax({
+    url: url+".html",
+    success:function (html) {
+      $(where).html(html);
+    },
+    error:function(jqXHR,textStatus,errorThrown){
+      alert("bad news!"+textStatus+errorThrown)
+    }
+  });
+}
+//страница каталога
+function load_category(url,where,id) {
+  alert(id)
+  let index;
+  switch (id){
+    case "female": index=0; break;
+    case "male": index=1;break;
+  }
+  $.ajax({
+    url: url+".html",
+    async:false,
+    success:function (html) {
+      //$("#category").classList.removeClass("show");
+      $(where).html(html);
+      $(".content").html("");
+      $("#categories").accordion({active:index});
+      $("#"+id).toggleClass("active");
+    },
+    error:function(jqXHR,textStatus,errorThrown){
+      alert("bad news!"+textStatus+errorThrown)
+    }
+  });
+}
+function ChooseCathegory(elem){
+
+  this.female_category=function () {
+      load_category('catalog_menu','#left_panel','female')
+  };
+  this.male_category=function () {
+    load_category('catalog_menu','#left_panel','male')
+  };
+  let obj=this;
+
+  $(elem).click(function (e) {
+    if(e.target.tagName!='A')
+      return false;
+    let to=$(e.target).attr("id");
+    if(to){
+      obj[to]();
+    }
+  })
+}
+new ChooseCathegory(category)
+
