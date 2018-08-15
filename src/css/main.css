@@ -14,7 +14,7 @@ footer{
 }
 .search .form-inline .form-control{
   float: left;
-  width: 60% !important;
+  width: 75% !important;
 }
 .search{
   top:25%;
@@ -25,6 +25,16 @@ footer{
 }
 #chat{
   position: relative;
+  z-index:1000;
+}
+.card img{
+  height:160px;
+}
+.card{
+  margin-bottom: 20px;
+}
+.list-group-item.active{
+  z-index: 0 !important;
 }
 .chat_body{
   display: none;
@@ -71,6 +81,7 @@ footer ul{
 }
 .content{
   margin: 2px 0 10px 0 ;
+  height: 4500px;
 }
 .description{
   margin-top: 20px;
@@ -145,8 +156,14 @@ footer ul{
 
 .dropdown-submenu:hover > a:after{
   border-left-color:#ffffff;
-}
 
+}
+.dropdown-submenu:hover{
+ background-color: greenyellow;
+}
+.dropdown-submenu:hover > .dropdown-menu li:hover{
+  background-color: greenyellow;
+}
 .dropdown-submenu .pull-left{
   float:none;
 }
@@ -239,7 +256,7 @@ div .form-group label{
   color:red;
 }
 .carousel-inner{
-  height: 300px;
+  height: 100%;
 }
 .form-group span{
   word-wrap: break-word;
@@ -251,6 +268,37 @@ div .form-group label{
 #female div ul li{
   list-style-type: none;
 }
+#category li a{
+  padding: 5px 20px 5px 20px;
+}
+#avatar{
+  width:100%;
+}
+.user_information .nav-link{
+  display: inline !important;
+}
+.row .information,.row .history{
+   display: none;
+}
+#cabinet{
+  display: none;
+}
+#exit{
+  position: absolute;
+  right:10px;
+}
+#exit a{
+  color: red !important;
+}
+.variants li{
+  text-align: right;
+}
 #goods{
-
+  overflow-y: auto;
+  max-height: 800px;
+}
+input[value='Фильтр']{
+  margin-bottom: 10px;
+  width: 100%;
+  margin-top: 20px;
 }

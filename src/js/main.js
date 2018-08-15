@@ -1,5 +1,6 @@
 //загружаем контент
  get_content();
+
 //позиционирование панели помощи
 var left=false;
 $(window).on("scroll",function(){
@@ -8,7 +9,7 @@ $(window).on("scroll",function(){
   if($("footer").offset().top<=position){
 
     $(".for_chat").css({"bottom":"200px"})
-    $("#chat").css({"bottom":"", "top":"-100px","left":"-38%","transform":"rotate(-90deg)"}).html("Связь с оператором &#9660")
+    $("#chat").css({"bottom":"", "top":"-370px","left":"-38%","transform":"rotate(-90deg)"}).html("Связь с оператором &#9660")
     $(".chat_body").css({"top":"20px","left":"27%"});
     left=true;
   }
@@ -18,6 +19,7 @@ $(window).on("scroll",function(){
     $(".chat_body").css({"top":"","left":""});
     left=false;
   }
+
 });
 
 $("#chat").click(function () {
@@ -93,24 +95,58 @@ function CreateForm(elem) {
     load('backet');
   };
   this.cabinet=function () {
-    load_page('cabinet','#left_panel')
+    $("#left_panel").html("")
+    $("#carousel").css("display","none");
+    alert("cabinet")
+    let nav=$("<nav>");
+    nav.addClass("nav flex-column profile_menu");
+    let a=$("<a>");
+    a.addClass("nav-link");
+    a.attr("href","#");
+    a.text("Информация");
+    a.attr("data-for","information")
+    nav.append(a);
+    a=$("<a>");
+    a.addClass("nav-link");
+    a.attr("href","#");
+    a.text("История заказов");
+    a.attr("data-for","history")
+    nav.append(a);
+    $("#left_panel").append(nav);
+
+    load_page('cabinet','.content');
+    load_data(current_email);
+
+
+    $(".profile_menu a").click(function (e) {
+      e.preventDefault();
+      let href=$(e.target).attr("data-for");
+      switch (href){
+        case 'information':$(".information").css("display","flex"); $(".history").css("display",""); break;
+        case 'history': $(".history").css("display","flex"); $(".information").css("display",""); break;
+      }
+    })
+    $(".profile_menu a:first-child").click(); //default
+
   }
   var obj=this;
 //login
   $(elem).on("click",function (e) {
+
     var target=e.target;
     if((target.tagName!='LI')&&(target.tagName!='A'))
       return false;
     var variant=$(target).attr("data-type");
+    //???? ПРОБЛЕМА ТУТ
     if((previous_variant!="")&&(variant==previous_variant)){
-      $(".login").toggle("puff",{percent:200},400);
-      return false;
+     // $(".login").toggle("puff",{percent:200},400);
+      //return false;
     }
     if(variant){
       obj[variant]();
     }
     previous_variant=variant;
-    return false;
+//    return false;
 
   });
 }
@@ -142,6 +178,7 @@ function load(url) {
 function load_page(url,where) {
   $.ajax({
     url: url+".html",
+    async:false,
     success:function (html) {
       $(where).html(html);
     },
@@ -152,7 +189,7 @@ function load_page(url,where) {
 }
 //страница каталога
 function load_category(url,where,id) {
-  alert(id)
+ // alert(id)
   let index;
   switch (id){
     case "female": index=0; break;
@@ -162,17 +199,26 @@ function load_category(url,where,id) {
     url: url+".html",
     async:false,
     success:function (html) {
-      //$("#category").classList.removeClass("show");
+      //грузим меню
       $(where).html(html);
+
+      //указываем активным главный раздел
+      $("#"+id).toggleClass("active"); //женская/мужская
       $(".content").html("");
+      //раскрываем подраздел
       $("#categories").accordion({active:index});
-      $("#"+id).toggleClass("active");
+      //делаем по умолчанию "летний сезон" выбранным
+      $("#categories div[class*='ui-accordion-content-active'] a[data-type='summer']").addClass('active');
+      //загружаем данные
+        load_items("catalog_item");
+
     },
     error:function(jqXHR,textStatus,errorThrown){
       alert("bad news!"+textStatus+errorThrown)
     }
   });
 }
+//выбор категории в главном меню
 function ChooseCathegory(elem){
 
   this.female_category=function () {
@@ -194,3 +240,24 @@ function ChooseCathegory(elem){
 }
 new ChooseCathegory(category)
 
+$("#to_main").click(function (e) {
+  e.preventDefault();
+  $("#carousel").css("display","")
+  $(".content").html("")
+  $("#left_panel").html("")
+  get_content();
+
+})
+
+$(document).ready(function () {
+  $(".login").css("display","none");
+  if($.cookie('user')){
+    current_email=$.cookie('user');
+    hide();
+  } // сохраняем значение в ключ hide
+
+});
+//noinspection JSUnresolvedFunction
+$( window ).unload(function() {
+  return "Handler for .unload() called.";
+});

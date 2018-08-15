@@ -15,8 +15,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-
-</head>
+  <script src="http://yastatic.net/jquery/cookie/1.0/jquery.cookie.min.js"></script>
+  </head>
 
 <body>
   <div class="container-fluid">
@@ -38,23 +38,25 @@
          <div class="col-12 col-xs-2 col-sm-2 col-md-3 col-lg-3 col-xl-3 action" id="action">
            <ul class="variants">
            <li>
-             <img class='icon' src="https://cdn3.iconfinder.com/data/icons/social-media-2125/80/enter-128.png" data-type="login">
              <a href="" onclick="return false" data-type="login">Log in</a>
+             <img class='icon' src="https://cdn3.iconfinder.com/data/icons/social-media-2125/80/enter-128.png" data-type="login">
            </li>
          <li>
-           <img class='icon' src="https://cdn1.iconfinder.com/data/icons/freeline/32/lock_locked_log_login_padlock_password_private_protection_register_registration_registry_safe_safety_secret_secure_security-128.png" data-type="registration">
            <a href="" onclick="return false" data-type="registration">Registration</a>
+           <img class='icon' src="https://cdn1.iconfinder.com/data/icons/freeline/32/lock_locked_log_login_padlock_password_private_protection_register_registration_registry_safe_safety_secret_secure_security-128.png" data-type="registration">
          </li>
          <li>
+
+           <a href="" onclick="return false" data-type="backet">Корзина</a>
            <img class='icon' src="https://cdn4.iconfinder.com/data/icons/thefreeforty/30/thefreeforty_basket-128.png"
                 data-type="backet">
-           <a href="" onclick="return false" data-type="backet">Корзина</a>
          </li>
-             <li>
-               <img class='icon' src="https://cdn4.iconfinder.com/data/icons/thefreeforty/30/thefreeforty_basket-128.png"
+             <li id="cabinet">
+               <a href="#content" data-type="cabinet">Личный кабинет</a>
+               <img class='icon' src="http://cdn.onlinewebfonts.com/svg/download_568657.png"
                     data-type="cabinet">
-               <a href="" onclick="return false" data-type="cabinet">Личный кабинет</a>
              </li>
+
          </ul>
         </div>
        </div>
@@ -66,33 +68,16 @@
           </div>
         <!-- середина-->
         <div class="col-12 col-xs-2 col-sm-2 col-md-3 col-lg-8 col-xl-8">
-          <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-             <!--сюда загружаем картинки-->
-              <div class="carousel-item active">
-                <img class="d-block w-100" src="https://i.ytimg.com/vi/PUCgOVI3pY0/maxresdefault.jpg" alt="First slide">
-              </div>
-            </div>
-            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-
           <ul class="nav nav-pills">
             <li class="nav-item">
-              <a class="nav-link active" href="#">Главная</a>
+              <a class="nav-link active" id="to_main">Главная</a>
             </li>
 
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle"  data-toggle="dropdown" href="#"
                  role="button" aria-haspopup="true" aria-expanded="false">Каталог</a>
               <ul class="dropdown-menu" id="category">
-                <li class="dropdown-submenu" > <a class="nav dropdown-toggle" id="female_category" tabindex="-1" href="#">Женская обувь</a>
+                <li class="dropdown-submenu" > <a class="nav dropdown-toggle" id="female_category" tabindex="-1" href="#content">Женская обувь</a>
                   <ul class="dropdown-menu">
                     <li><a href="#">Летний сезон</a>
                     </li>
@@ -128,6 +113,22 @@
 
 
           </ul>
+          <div id="carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+              <!--сюда загружаем картинки-->
+              <div class="carousel-item active">
+                <img class="d-block w-100" src="https://i.ytimg.com/vi/PUCgOVI3pY0/maxresdefault.jpg" alt="First slide">
+              </div>
+            </div>
+            <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
       </div>
         <div class="col-12 col-xs-2 col-sm-2 col-md-3 col-lg-2 col-xl-2">
         </div>
@@ -136,7 +137,7 @@
       </div>
       <div class="col-12 col-xs-2 col-sm-2 col-md-8 col-lg-8 col-xl-8">
         <!-- меню-->
-      <div class="content">
+      <div class="content" id="content">
       </div>
         </div>
       <div class="col-12 col-xs-2 col-sm-2 col-md-3 col-lg-2 col-xl-2">
@@ -185,5 +186,7 @@
   </form>
   <script src="js/main.js"></script>
   <script src="js/work_with_user.js"></script>
+  <script src="js/category.js"></script>
+  <script src="js/items.js"></script>
 </body>
 </html>

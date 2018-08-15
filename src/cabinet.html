@@ -1,4 +1,52 @@
-<nav class="nav flex-column">
-    <a class="nav-link active" href="#">Информация</a>
-    <a class="nav-link" href="#">История заказов</a>
-</nav>
+<div class="row information">
+  <div class="col-12 col-xs-2 col-sm-2 col-md-4 col-lg-4 col-xl-4 " id="drop-area">
+    <h3>Drag and Drop Files Here</h3>
+      <input type="file" title="Click to add Files">
+    <img id="avatar" src="" class="rounded float-left" alt="...">
+  </div>
+  <div class="col-12 col-xs-2 col-sm-2 col-md-8 col-lg-8 col-xl-8 user_information" >
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <label>Имя:</label>
+        <a class="nav-link active" href="#" data-type="name"></a>
+      </li>
+      <li class="nav-item">
+        <label>Фамилия:</label>
+        <a class="nav-link" href="#" data-type="sirname"></a>
+      </li>
+      <li class="nav-item">
+        <label>Отчество:</label>
+        <a class="nav-link" href="#" data-type="fathername"></a>
+      </li>
+      <li class="nav-item">
+        <label>E-mail:</label>
+        <a class="nav-link" href="#" data-type="email"></a>
+      </li>
+      <li class="nav-item">
+        <label>Телефон:</label>
+        <a class="nav-link" href="#" data-type="number"></a>
+      </li>
+      <li class="nav-item">
+        <label>Адрес:</label>
+        <a class="nav-link" href="#" data-type="address"></a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="row history">
+  <div class="col-12 col-xs-2 col-sm-2 col-md-12 col-lg-12 col-xl-12">
+  <table class="table">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Дата</th>
+      <th scope="col">Содержание</th>
+      <th scope="col">Статус</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  </div>
+</div>

@@ -36,4 +36,9 @@
   });
 }
 */
+/*
+$(window).scroll(function () {
+  $("#categories").css({"position":"fixed","top":"40%"})
+})
+*/
 
