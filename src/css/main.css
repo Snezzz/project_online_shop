@@ -302,3 +302,7 @@ input[value='Фильтр']{
   width: 100%;
   margin-top: 20px;
 }
+#user_info li label{
+  display: inline-flex;
+  width: 20%;
+}

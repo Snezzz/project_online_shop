@@ -116,7 +116,7 @@ function CreateForm(elem) {
 
     load_page('cabinet','.content');
     load_data(current_email);
-
+    new Edit(user_info);
 
     $(".profile_menu a").click(function (e) {
       e.preventDefault();

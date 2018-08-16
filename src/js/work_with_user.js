@@ -172,6 +172,7 @@ function show() {
 }
 //загрузка данных на страницу
 function load_data(user_email) {
+  let i=0;
   $.ajax({
   url:"https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
   "5b6d35c7e7179a59c6d785d8?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
@@ -180,10 +181,11 @@ function load_data(user_email) {
   success:function (data) {
     for(var key in data.users){
       if(data.users[key].email==user_email){
-        get_info({name:data.users[key].name,sirname:data.users[key].sirname,email:data.users[key].email});
+        get_info({name:data.users[key].name,sirname:data.users[key].sirname,email:data.users[key].email},i);
        get_orders(data.users[key].orders);
         break;
       }
+      i++;
     }
   },
   error:function(jqXHR,textStatus,errorThrown){
@@ -193,10 +195,17 @@ function load_data(user_email) {
 
 }
 //сбор данных о пользоателе (стандарт - имя, фамилия, email)
-function get_info(data) {
+function get_info(data,num) {
+
   //информация
   for(var key in data) {
+    //передаем id(номер среди всех пользователей) для правильного редактирования данных
+    if(key=='email'){
+      alert(num)
+      $(".information .user_information li a[data-type='" + key + "']").attr("id",num);
+    }
     $(".information .user_information li a[data-type='" + key + "']").html(data[key])
+
   }
 }
 function get_orders(data) {
@@ -244,5 +253,95 @@ $("#drop-area").dmUploader({
 
   // ... More callbacks
 });
+  */
+//делегирование для каждой панели по изменению данных о пользователе
+  function Edit(elem){
 
-*/
+    //метод установки нового значения
+    this.set=function(variant,value){
+          upload(variant,value); //variant = что обновляем , value - каким значением
+    };
+    var obj=this;
+    //при нажатии на <a>
+    $(elem).click(function (e) {
+      e.preventDefault();
+
+      if(e.target.tagName!="A")
+        return false;
+      if($(e.target).attr("data-type")=='email'){
+        return false;
+      }
+      alert("click"+e.target.tagName)
+      //клонируем элемент для осстановления при завершении ввода данных
+      let copy=$(e.target).clone();
+      //определяем, что менять
+      let variant=$(e.target).attr("data-type");
+      //создаем поле ввода
+      let input =createField(e.target);
+      //фокусируемся(при покидании автоматически сохраняются данные)
+      $(input).focus();
+      //обновление при потере фокусировки
+      $(input).blur(function () {
+
+        //нет изменений
+        if($(this).val()==copy.text()){
+          $(this).replaceWith(copy);
+          return false;
+        }
+        //нет данных
+
+          let value=$(this).val();
+        //обновляем данные в БД
+          obj.set(variant,value);
+          copy.html(value);
+        //заменяем на новое значение
+        $(this).replaceWith(copy);
+      });
+
+    })
+
+}
+//создание редактируемого поля
+function createField(where) {
+  let input=$("<input>");
+  if($(where).text()=="Добавить информацию"){
+    input.val();
+  }
+  else {
+    input.val($(where).text());
+  }
+  input.attr('data-type',$(where).attr('data-type'));
+  $(where).replaceWith(input);
+  return input;
+}
+
+function upload(what,val) {
+  let item={};
+  //правильный путь к текущему объекту в массиве
+  let id=$("#user_info li a[data-type='email']").attr("id");
+  var where="users."+id+"."+what;
+  //заносим в объект, что передаем для редактирования
+  //({$set:{"ss.0.ids":"weewwbww"}})
+  item[where]=val;
+  let data=JSON.stringify({$set:item});
+
+  let value=item[what];
+  $.ajax({
+    url:"https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
+    "5b6d35c7e7179a59c6d785d8?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+    type:"put",
+    data:data,
+    contentType: "application/json",
+    async: false,
+    success:function (data) {
+
+
+
+    },
+    error:function(jqXHR,textStatus,errorThrown){
+      alert("bad news!"+textStatus+errorThrown)
+    }
+  });
+
+}
+//upload("sn@mail.ru","name","j");
