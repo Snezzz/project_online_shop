@@ -3,10 +3,10 @@
  */
   //генерирование id
 var ID = function () {
-    return '_' + Math.random().toString(36).substr(2, 9);
+    return 'user_' + Math.random().toString(36).substr(2, 9);
   };
 //login (делегирование)
-var current_email;
+var current_email,current_id;
 function GetAndCancel(elem) {
 
   function isFullish(solve) {
@@ -29,13 +29,13 @@ function GetAndCancel(elem) {
     let email= $("#user_email");
     let password=$("#user_password");
     //успешный вход в систему
-    if(check(email.val(),password.val())){
+    let id=check(email.val(),password.val());
+    if(id){
       alert("Добро пожаловать!");
       current_email=email.val(); //тот, кто зашел
+      current_id=id;
       hide();
-      let current_time=new Date();
-      alert(current_time.getDate());
-      $.cookie("user",email.val());
+      $.cookie("user",id);
      }
 
     //чето неправильно
@@ -91,32 +91,44 @@ function GetAndCancel(elem) {
 //поиск зарегистрированного пользователя в бд
 function check(email,password) {
   var login=false;
+  var id;
   $.ajax({
     url:"https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
-    "5b6d35c7e7179a59c6d785d8?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+    "5b766cdde7179a69ea606557?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
     type:"get",
     async: false,
     success:function (data) {
-
+      for(var key in data.users){
+        console.log(data.users[key]);
+        if((data.users[key].email==email)&&(data.users[key].password==password)){
+          login=true;
+          id=key;
+          break;
+        }
+      }
+      /*
           for(var key in data.users){
             if((data.users[key].email==email)&&(data.users[key].password==password)){
               login=true;
               break;
             }
           }
-
+*/
 
     },
     error:function(jqXHR,textStatus,errorThrown){
       alert("bad news!"+textStatus+errorThrown)
     }
   });
-  return login;
+  if(login)
+    return id;
+  else
+    return false;
 }
 
 function createUser() {
   var user={};
-  user.id=ID();
+  let id=ID();
   //перебираем все заполненные input
   var obj=$(".form-group input[data-item]");
   obj.each(function (k,v) {
@@ -124,14 +136,18 @@ function createUser() {
     let value=$(this).val();
     user[data]=value;
   });
+  let finish={};
   user.img="";
+ user.address=user.number=user.fathername="Добавить информацию";
   user.orders=[];
+  let where="users."+id;
+  finish[where]=user;
   $.ajax({
     url:"https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
-  "5b6d35c7e7179a59c6d785d8?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+  "5b766cdde7179a69ea606557?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
     type:"put",
     async:false,
-    data: JSON.stringify({ $push:{"users": user}}), //в массив users кладем объект {...}
+    data: JSON.stringify({ $set:finish}), //в массив users кладем объект {...}
     contentType:"application/json",
     success: function () {
       alert("Поздравляем с регистрацией!")
@@ -172,21 +188,29 @@ function show() {
 }
 //загрузка данных на страницу
 function load_data(user_email) {
-  let i=0;
   $.ajax({
   url:"https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
-  "5b6d35c7e7179a59c6d785d8?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+  "5b766cdde7179a69ea606557?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
   type:"get",
   async: false,
   success:function (data) {
+
+    if(data.users[user_email]) {
+      get_info(data.users[user_email]);
+      get_orders(data.users[user_email].orders);
+    }
+    /*
     for(var key in data.users){
       if(data.users[key].email==user_email){
-        get_info({name:data.users[key].name,sirname:data.users[key].sirname,email:data.users[key].email},i);
-       get_orders(data.users[key].orders);
+       // get_info({name:data.users[key].name,sirname:data.users[key].sirname,email:data.users[key].email},i);
+        get_info({name:data.users[key].name,sirname:data.users[key].sirname,email:data.users[key].email});
+
+        get_orders(data.users[key].orders);
         break;
       }
       i++;
     }
+    */
   },
   error:function(jqXHR,textStatus,errorThrown){
     alert("bad news!"+textStatus+errorThrown)
@@ -200,10 +224,11 @@ function get_info(data,num) {
   //информация
   for(var key in data) {
     //передаем id(номер среди всех пользователей) для правильного редактирования данных
-    if(key=='email'){
+  /*  if(key=='email'){
       alert(num)
       $(".information .user_information li a[data-type='" + key + "']").attr("id",num);
     }
+    */
     $(".information .user_information li a[data-type='" + key + "']").html(data[key])
 
   }
@@ -218,7 +243,7 @@ function get_orders(data) {
       if(typeof data[key][i]=='object'){
         for(let k in data[key][i]){
           let a=$("<a>");
-          a.text(data[key][i][k].name);
+          a.text(data[key][i].product_id); //???
           a.attr("href",data[key][i][k].href);
           td.append(a);
         }
@@ -318,8 +343,9 @@ function createField(where) {
 function upload(what,val) {
   let item={};
   //правильный путь к текущему объекту в массиве
-  let id=$("#user_info li a[data-type='email']").attr("id");
-  var where="users."+id+"."+what;
+  //let id=$("#user_info li a[data-type='email']").attr("id");
+ // var where="users."+id+"."+what;
+  var where="users."+current_id+"."+what;
   //заносим в объект, что передаем для редактирования
   //({$set:{"ss.0.ids":"weewwbww"}})
   item[where]=val;
@@ -328,7 +354,7 @@ function upload(what,val) {
   let value=item[what];
   $.ajax({
     url:"https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
-    "5b6d35c7e7179a59c6d785d8?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+    "5b766cdde7179a69ea606557?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
     type:"put",
     data:data,
     contentType: "application/json",
@@ -344,4 +370,4 @@ function upload(what,val) {
   });
 
 }
-//upload("sn@mail.ru","name","j");
+

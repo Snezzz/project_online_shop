@@ -76,6 +76,7 @@ function from(data,obj) {
 
 new CreateForm(action)
 var previous_variant="";
+var items={};
 function CreateForm(elem) {
 
   //вход в систему
@@ -92,12 +93,15 @@ function CreateForm(elem) {
   };
   //корзина
   this.basket=function(){
-    load('backet');
+    $("#carousel").hide();
+
+    load_page("basket",".content");
+
+    get();
   };
   this.cabinet=function () {
     $("#left_panel").html("")
     $("#carousel").css("display","none");
-    alert("cabinet")
     let nav=$("<nav>");
     nav.addClass("nav flex-column profile_menu");
     let a=$("<a>");
@@ -115,7 +119,8 @@ function CreateForm(elem) {
     $("#left_panel").append(nav);
 
     load_page('cabinet','.content');
-    load_data(current_email);
+    load_data(current_id);
+    //load_data(current_email);
     new Edit(user_info);
 
     $(".profile_menu a").click(function (e) {
@@ -188,7 +193,7 @@ function load_page(url,where) {
   });
 }
 //страница каталога
-function load_category(url,where,id) {
+function load_category(url,where,id,category) {
  // alert(id)
   let index;
   switch (id){
@@ -208,7 +213,7 @@ function load_category(url,where,id) {
       //раскрываем подраздел
       $("#categories").accordion({active:index});
       //делаем по умолчанию "летний сезон" выбранным
-      $("#categories div[class*='ui-accordion-content-active'] a[data-type='summer']").addClass('active');
+      $("#categories div[class*='ui-accordion-content-active'] a[data-type='"+category+"']").addClass('active');
       //загружаем данные
         load_items("catalog_item");
 
@@ -222,10 +227,19 @@ function load_category(url,where,id) {
 function ChooseCathegory(elem){
 
   this.female_category=function () {
-      load_category('catalog_menu','#left_panel','female')
+      load_category('catalog_menu','#left_panel','female','summer')
   };
   this.male_category=function () {
-    load_category('catalog_menu','#left_panel','male')
+    load_category('catalog_menu','#left_panel','male','summer')
+  };
+  this.season=function(who,val) {
+    switch (who){
+      case 'female_category': who='female';
+        break;
+      case 'male_category': who='male';
+        break;
+    }
+    load_category('catalog_menu','#left_panel',who,val)
   };
   let obj=this;
 
@@ -235,6 +249,12 @@ function ChooseCathegory(elem){
     let to=$(e.target).attr("id");
     if(to){
       obj[to]();
+    }
+    else{
+      to=$(e.target).attr("data-type");
+      let where=$(e.target).parent().parent().parent();
+      let who=where.children().attr("id");
+      obj.season(who,to);
     }
   })
 }
@@ -252,12 +272,8 @@ $("#to_main").click(function (e) {
 $(document).ready(function () {
   $(".login").css("display","none");
   if($.cookie('user')){
-    current_email=$.cookie('user');
+    current_id=$.cookie('user');
     hide();
   } // сохраняем значение в ключ hide
 
-});
-//noinspection JSUnresolvedFunction
-$( window ).unload(function() {
-  return "Handler for .unload() called.";
 });

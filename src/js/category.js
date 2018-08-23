@@ -14,7 +14,7 @@ $("#categories h3 a").on('click', function (e) {
   load_items("catalog_item");
 })
 
-var default_type="cf83cfe9-340d-4821-b51b-12453cd28c47";
+var default_type;
 function load_items(url,which) {
   let active_item=$("#categories div a[class='list-group-item list-group-item-action active']").attr("data-type");
   let key;
@@ -26,9 +26,8 @@ function load_items(url,which) {
 
       $(".content").html(html);
       get_variants(active_item); //выбранная категория
-
       items_type(default_type); //грузим данные по разделу типа обуви
-
+      new LoadItem(goods)
     },
     error:function(jqXHR,textStatus,errorThrown){
       alert("bad news!"+textStatus+errorThrown)
@@ -36,24 +35,24 @@ function load_items(url,which) {
   });
 
 }
-
+//изменено
 function items_type(type_id) {
   let sex=$("#categories h3 a[class*='active']").attr("id");
   let from;
   //alert("type="+type_id)
   $.ajax({
     url: "https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
-    "5b7146e6fb6fc00430196bd1?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+    "5b76a085e7179a69ea6076ea?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
     type:"GET",
     async:false,
     success:function (data) {
 
       $("#goods").html("");
       if(sex=="male"){
-        from=data.items.id[type_id][0].male;
+        from=data.items.id[type_id].male;
       }
       else{
-        from=data.items.id[type_id][1].female;
+        from=data.items.id[type_id].female;
       }
 
   //перебираем все товары по категории и подкатегории
@@ -63,8 +62,10 @@ function items_type(type_id) {
         let child_div=$("<div>");
         child_div.addClass("card");
         let img=$("<img>");
+        img.attr("href","#content");
         img.attr("src",from[key].img);
         img.addClass("card-img-top");
+        img.attr("id",key);
         let child_div_div=$("<div>");
         child_div_div.addClass("card-body");
         let p=$("<p>");
@@ -98,9 +99,9 @@ $("#categories div a").click(function (e) {
   get_variants(active_item);
 
   let type=$("#items li:first-child").attr("data-key");
-
+  default_type=type;
   items_type(type); //грузим данные по разделу типа обуви
-
+  new LoadItem(goods)
 
 
 });
@@ -127,8 +128,7 @@ function get_variants(type) {
         li.append(a);
         $("#items").append(li);
       }
-
-
+      default_type=$("#items").children().eq(0).attr("data-key");
       //$("#category").classList.removeClass("show");
     },
     error: function (jqXHR, textStatus, errorThrown) {

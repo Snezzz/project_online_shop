@@ -48,8 +48,8 @@ aside{
 .logotype {
   position: relative;
   top: 10px;
-  width: 60%;
-  height: 80%;
+  width: 40%;
+  /*height: 80%;*/
   border-radius: 100px;
 }
 .icon{
@@ -305,4 +305,50 @@ input[value='Фильтр']{
 #user_info li label{
   display: inline-flex;
   width: 20%;
+}
+#product_img{
+  width: 200px;
+}
+#product_choose ul li button{
+  width: 100%;
+}
+.color {
+  width: 30px !important;
+  height: 30px;
+  border-radius: 100px;
+}
+li[data-type="colors"],li[data-type="sizes"]{
+  display: block;
+}
+#btnAddToFavourites{
+  position: absolute;
+  color:red;
+}
+a[data-size][class*=active]{
+  background-color: #f0ad4e !important;
+}
+#basket tr th,#basket tbody tr td{
+  text-align: center;
+}
+#basket_action button{
+  float: right;
+  margin: 10px 10px 10px 5px;
+}
+
+.change input{
+  text-align: center;
+  width: 20px;
+}
+#contacts{
+  display: none;
+}
+
+.alert-warning{
+  display: none;
+}
+.delivery_address{
+  display: none;
+}
+#place{
+  display: none;
 }

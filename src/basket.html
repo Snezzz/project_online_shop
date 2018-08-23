@@ -1,0 +1,57 @@
+<div class="alert alert-warning" role="alert">
+  В корзину ничего не добавлено
+</div>
+<div class="basket_content">
+<table class="table" id="basket">
+  <thead class="thead-dark">
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Название товара</th>
+    <th scope="col">Размер</th>
+    <th scope="col">Цвет</th>
+    <th scope="col">Цена</th>
+    <th scope="col">Количество</th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+  <div class="delivery">
+    <label>Способ доставки:</label>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="exampleRadios" id="pickup" value="option1">
+      <label class="form-check-label" for="pickup">
+        Самовывоз
+      </label>
+      <select id="place" class="custom-select custom-select-sm">
+        <option value="1" selected>м.Московская</option>
+        <option value="2">м.Невский проспект</option>
+        <option value="3">м.Новочеркасская</option>
+      </select>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="exampleRadios" id="home_delivery" value="option2">
+      <label class="form-check-label" for="home_delivery">
+        Доставка на дом (+25% от общей стоимости)
+      </label>
+      <div class="delivery_address">
+        <input placeholder="город">
+        <input placeholder="улица">
+        <input placeholder="дом">
+        <input placeholder="квартира">
+        <button>Запомнить</button>
+      </div>
+    </div>
+  </div>
+<div id="basket_action">
+  <span id="sum">Общая стоимость: </span><h2></h2>
+
+  <div id="contacts"><h1>где:</h1></div>
+<button type="button" class="btn btn-success" data-type="send">Оформить заказ</button>
+  <button type="button" class="btn btn-light" data-type="cancel">Отменить</button>
+</div>
+
+
+</div>
+<script src="js/work_with_basket.js"></script>

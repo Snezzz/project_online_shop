@@ -11,10 +11,11 @@ $("#user_email").blur(function () {
   //проверка на идентификацию почтового ящика
   $.ajax({
     url:"https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
-    "5b6d35c7e7179a59c6d785d8?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+    "5b766cdde7179a69ea606557?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
     async:false,
     success: function (data) {
       //поиск, заругистрирован ли уже этот пользователь
+
       for(var key in data.users) {
         if(data.users[key].email==email){
           existence=true;
@@ -40,6 +41,7 @@ $("#user_email").blur(function () {
 
 });
 
+//проверка пароля
 $("#user_password").blur(function () {
   if($(this).val().length<8){
     $("#success").hide(1000);
