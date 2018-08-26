@@ -67,6 +67,7 @@ function get() {
 
     i++;
   }
+  //-
   $("button[data-action='reduce']").click(function () {
     let tr=$(this).parent().parent().attr("id");
     let val=$("#"+tr+" td:nth-child(6) input")
@@ -84,6 +85,7 @@ function get() {
 
 
   });
+  //+
   $("button[data-action='increase']").click(function () {
     let tr=$(this).parent().parent().attr("id");
     let val=$("#"+tr+" td:nth-child(6) input");
@@ -98,6 +100,7 @@ function get() {
 
 
   })
+  //убрать
   $(".delete").click(function (e) {
     e.preventDefault();
     let tr= $(this).parent().parent();
@@ -147,77 +150,31 @@ function get_sum() {
   let data=$("#basket tbody tr");
   data.each(function (e,v) {
     sum=sum+Number($(v).children().eq(4).text())*Number($(v).children().eq(5).children().eq(1).val());
-  })
+  });
 
   return sum;
 }
 function Action(button) {
   this.send=function () {
-    if(!$.cookie("user")) {
+    if (!delivery) {
+      alert("выберите способ доставки!");
+      return false;
+    }
+    if (!$.cookie("user")) {
       $("#contacts").effect("puff", {percent: 200, mode: "show"}, 400);
     }
-    let user_id=$.cookie("user");
-    let order_id=order_ID();
-    let date=new Date();
-    let descriprion={};
-    let data=$("#basket tbody tr");
-
-    data.each(function (e,v) {
-      let name=$(v).children().eq(1).text();
-      let size=$(v).children().eq(2).text();
-      let color=$(v).children().eq(3).text();
-      let count=$(v).children().eq(5).text();
-        let item={
-          product_id:name,
-          size:size,
-          color:color,
-          count:count
-        };
-        descriprion[name]=item;
-    });
-    let order={
-      id: order_id,
-      date: date.getDay(),
-      description:descriprion,
-      cost: $("#basket_action h2").text(),
-      status: "В ожидании подтверждения"
-    };
-    console.log($(".delivery_address").css("display"))
-    //если доставка на дом
-    if($(".delivery_address").css("display")=="block"){
-      order.type='Доставка на дом';
-    order.address=address;
+    else {
+      let user_id = $.cookie("user");
+      send_order(user_id);
     }
-    else{
-      order.type="Самовывоз";
-      order.address=$("#place option[selected]").text();
-    }
-  let where="users."+user_id+".orders."+order_id;
-    let to_send={};
-    to_send[where]=order;
-    $.ajax({
-      url:"https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
-      "5b766cdde7179a69ea606557?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
-      type:"put",
-      async:false,
-      data: JSON.stringify({ $set:to_send}), //в массив users кладем объект {...}
-      contentType:"application/json",
-      success: function () {
-        alert("Ваш заказ оформлен!Ожидайте связи с оператором")
-        delete items;
-        $("#to_main").click();
-      },
-      error:function(jqXHR,textStatus,errorThrown){
-        alert("bad news!"+textStatus+errorThrown)
-
-      }
-    });
   };
+
   this.cancel=function () {
     let action=confirm("Вы уверены, что хотите отменить заказ? Все данные потеряются");
     if(!action)
       return false;
     delete items;
+    console.log(items)
     $("#to_main").click();
   };
   let obj=this;
@@ -246,22 +203,26 @@ function check_fullness() {
   }
 }
 var prev_cost;
+let delivery=false;
 $("#home_delivery").click(function () {
   $(".delivery_address").css("display","block");
   $("#place").css("display","");
   prev_cost= Number($("#basket_action h2").text());
   let new_cost= prev_cost+(prev_cost*25/100);
   $("#basket_action h2").text(new_cost)
+  delivery=true;
 });
 
 $("#pickup").click(function () {
   $(".delivery_address").css("display","");
   $("#place").css("display","block");
   $("#basket_action h2").text(prev_cost)
+  delivery=true;
 });
 //заполнение данных адреса доставки
 var address;
 $(".delivery_address button").click(function () {
+
   let city=$(".delivery_address input:first-child").val();
   let street=$(".delivery_address input:nth-child(2)").val();
   let home_number=$(".delivery_address input:nth-child(3)").val();
@@ -282,4 +243,122 @@ $(".delivery_address button").click(function () {
 
   });
 });
+
+$("#contacts a").click(function (e) {
+  e.preventDefault();
+  $("#contacts").effect("puff", {percent: 200, mode: "hide"}, 400);
+});
+
+function send_order(user_id){
+  let order_id=order_ID();
+  let date=new Date();
+  let descriprion={};
+  let data=$("#basket tbody tr");
+
+  data.each(function (e,v) {
+    let name=$(v).children().eq(1).text();
+    let size=$(v).children().eq(2).text();
+    let color=$(v).children().eq(3).text();
+    let count=$(v).children().eq(5).text();
+    let item={
+      product_id:name,
+      size:size,
+      color:color,
+      count:count
+    };
+    descriprion[name]=item;
+  });
+  let order={
+    id: order_id,
+    date: date.getDay(),
+    description:descriprion,
+    cost: $("#basket_action h2").text(),
+    status: "В ожидании подтверждения"
+  };
+  console.log($(".delivery_address").css("display"))
+  //если доставка на дом
+  if($(".delivery_address").css("display")=="block"){
+    order.type='Доставка на дом';
+    order.address=address;
+  }
+  else{
+    order.type="Самовывоз";
+    order.address=$("#place option[selected]").text();
+  }
+  let where="users."+user_id+".orders."+order_id;
+  let to_send={};
+  to_send[where]=order;
+  $.ajax({
+    url:"https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
+    "5b766cdde7179a69ea606557?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+    type:"put",
+    async:false,
+    data: JSON.stringify({ $set:to_send}), //в массив users кладем объект {...}
+    contentType:"application/json",
+    success: function () {
+      alert("Ваш заказ оформлен!Ожидайте связи с оператором")
+      items={};
+
+
+      //$("#to_main").click();
+    },
+    error:function(jqXHR,textStatus,errorThrown){
+      alert("bad news!"+textStatus+errorThrown)
+
+    }
+  });
+}
+$("#contacts .form-group button[data-type='send']").click(function () {
+  let action=true;
+  $("#contacts div input").each(function (e,v) {
+    if(!$(v).val()){
+      alert("Все поля обязательны");
+      action=false;
+      return false;
+    }
+  });
+    if(!action)
+      return false;
+  let id=ID();
+  let data=$("#user_name").val().split(" ");
+  let user={
+    name:  data[0],
+    sirname: data[1],
+    phone_number: $("#phone_number").val(),
+    email: $("#user_email").val(),
+    orders:{}
+  };
+  let to_send={};
+  to_send["users."+id]=user;
+  $.ajax({
+    url:"https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
+    "5b766cdde7179a69ea606557?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+    type:"put",
+    async:false,
+    data: JSON.stringify({ $set:to_send}), //в массив users кладем объект {...}
+    contentType:"application/json",
+    success: function () {
+      send_order(id);
+    },
+    error:function(jqXHR,textStatus,errorThrown){
+      alert("bad news!"+textStatus+errorThrown)
+
+    }
+  });
+});
+$("#phone_number").focus(function () {
+  if(!$(this).val())
+  $(this).val("+7");
+  $("#phone_number").blur(function () {
+    if($(this).val().length<12) {
+      alert("недостаточно цифр в номере")
+      $("#phone_number").focus();
+    }
+    if($(this).val().length>12) {
+      alert("много цифр");
+      $("#phone_number").focus();
+    }
+  });
+});
+
 

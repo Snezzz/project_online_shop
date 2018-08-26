@@ -93,11 +93,13 @@ function CreateForm(elem) {
   };
   //корзина
   this.basket=function(){
+
     $("#carousel").hide();
-
+    $("#left_panel").html("");
     load_page("basket",".content");
-
     get();
+    new Action(basket_action);
+
   };
   this.cabinet=function () {
     $("#left_panel").html("")
@@ -213,10 +215,10 @@ function load_category(url,where,id,category) {
       //раскрываем подраздел
       $("#categories").accordion({active:index});
       //делаем по умолчанию "летний сезон" выбранным
-      $("#categories div[class*='ui-accordion-content-active'] a[data-type='"+category+"']").addClass('active');
+      $("#categories div[class*='ui-accordion-content-active'] h4 a[data-type='"+category+"']").addClass('active');
       //загружаем данные
         load_items("catalog_item");
-
+        load_filter(); //для фильтра загрузка существующих цветов и размеров
     },
     error:function(jqXHR,textStatus,errorThrown){
       alert("bad news!"+textStatus+errorThrown)
@@ -277,3 +279,4 @@ $(document).ready(function () {
   } // сохраняем значение в ключ hide
 
 });
+

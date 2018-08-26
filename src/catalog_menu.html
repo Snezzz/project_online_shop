@@ -1,18 +1,46 @@
-<input class="btn btn-success" type="button" value="Фильтр">
-<div id="categories" class="list-group">
-  <h3><a href="#" class="list-group-item list-group-item-action" id="female">Женская обувь</a></h3>
-    <div>
-      <a class="list-group-item list-group-item-action" href="#" data-type="summer">Летняя</a>
-      <a class="list-group-item list-group-item-action" href="#"  data-type="winter">Зимняя</a>
-      <a class="list-group-item list-group-item-action" href="#" data-type="autumn">Осенняя</a>
-      <a class="list-group-item list-group-item-action" href="#"  data-type="spring">Весенняя</a>
+
+<div class="accordion" id="accordionExample">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+        <button class="btn btn-success btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Фильтр
+        </button>
+    </div>
+    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+        <div id="cost">
+        <label for="amount">Цена:</label>
+        <div id="slider-range"></div>
+        <p>
+          <input type="text" id="amount" style="border:0; color:#f6931f; font-weight:bold;" />
+        </p>
+        </div>
+        <div id="colors">
+        </div>
+        <div id="sizes">
+        </div>
+        <div id="filter_action" role="group" aria-label="Basic example">
+            <button type="button" data-type='clear' class="btn btn-outline-warning">Сбросить</button>
+            <button type="button" data-type='filter' class="btn btn-outline-success">Применить</button>
+        </div>
+          </div>
+    </div>
   </div>
-  <h3><a href="#" class="list-group-item list-group-item-action" id="male">Мужская обувь</a></h3>
+</div>
+<div id="categories" class="list-group">
+  <h3><a href="#" id="female">Женская обувь</a></h3>
   <div>
-    <a class="list-group-item list-group-item-action" href="#" data-type="summer">Летняя</a>
-    <a class="list-group-item list-group-item-action" href="#"  data-type="winter">Зимняя</a>
-    <a class="list-group-item list-group-item-action" href="#" data-type="autumn">Осенняя</a>
-    <a class="list-group-item list-group-item-action" href="#"  data-type="spring">Весенняя</a>
+    <h4><a href="#" data-type="summer">Летняя</a></h4>
+    <h4><a href="#" data-type="winter">Зимняя</a></h4>
+    <h4><a href="#" data-type="autumn">Осенняя</a></h4>
+    <h4><a href="#" data-type="spring">Весенняя</a></h4>
+  </div>
+  <h3><a href="#"  id="male">Мужская обувь</a></h3>
+  <div>
+    <h4><a href="#" data-type="summer">Летняя</a></h4>
+    <h4><a href="#" data-type="winter">Зимняя</a></h4>
+    <h4><a href="#" data-type="autumn">Осенняя</a></h4>
+    <h4><a href="#" data-type="spring">Весенняя</a></h4>
   </div>
 </div>
 <script src="js/category.js"></script>

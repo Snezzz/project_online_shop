@@ -1,8 +1,7 @@
-
+var remember={};
 function LoadItem(elem){
-  alert("start")
   this.load=function (what) {
-      load_info(what);
+      remember=load_info(what);
   };
   let obj=this;
   $(elem).click(function (e) {
@@ -18,15 +17,22 @@ function LoadItem(elem){
     }
   });
 }
+var item_data;
 function load_info(what) {
  let active_sex=$("#categories h3[aria-selected='true']").children().eq(1).attr("id");
+  let remember={};
+  remember['type']=default_type;
+  remember['sex']=active_sex;
+  remember['id']=what;
+
   $.ajax({
     url: "https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
     "5b76a085e7179a69ea6076ea?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
     type: "GET",
     async:false,
     success: function (data) {
-      let item_data=data.items.id[default_type][active_sex][what];
+
+      item_data=data.items.id[default_type][active_sex][what];
         if(data){
           $("#left_panel").html("");
           $("#carousel").css("display","none")
@@ -100,6 +106,7 @@ function load_info(what) {
       alert("bad news!" + textStatus + errorThrown)
     }
   });
+  return remember;
 }
 var prev;
 /*$("li[data-type='colors'] button").click(function (e) {
@@ -126,7 +133,7 @@ function load_comments(data) {
     text_div.html(text);
     //let rating;
     div.append(text_div);
-    $(".comments .panel-body .list").append(div);
+    $(".comments .panel-body .list").prepend(div);
   }
 }
 function load_user(what,where) {
@@ -226,3 +233,53 @@ function addToBasket(item) {
 var product_ID = function () {
   return 'product_' + Math.random().toString(36).substr(2, 9);
 };
+
+//добавление комментария
+$("#btnAddComment").click(function () {
+  if($.cookie("user")) {
+    $(".new_comment").animate({height: "show"})
+  }
+  else{
+    $("p[data-type='alert']").animate({opacity:"show"},2000).animate({opacity:"hide"},4000);
+  }
+});
+//отправить комментарий
+$(".new_comment button").click(function () {
+  let user_id=$.cookie("user");
+  let date=new Date();
+  let comment={
+    user_id:user_id,
+    comment:$(".new_comment textarea").val(),
+    rating:5,
+    date: date.getDate()
+  };
+  console.log(user_id);
+  let to_send="items.id."+remember.type+"."+remember.sex+"."+remember.id+".comments."+order_ID();
+  let data={};
+  data[to_send]=comment;
+  $.ajax({
+    url:"https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
+    "5b76a085e7179a69ea6076ea?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+    type:"put",
+    async:false,
+    data: JSON.stringify({ $set:data}), //в массив users кладем объект {...}
+    contentType:"application/json",
+    success: function () {
+      let div=$("<div>");
+      div.attr("class","comment");
+      load_user($.cookie("user"),div);//загружаем картинку и имя с фамилией
+      let text=comment.comment;
+      let text_div=$("<div>");
+      text_div.html(text);
+      //let rating;
+      div.append(text_div);
+      $(".comments .panel-body .list").prepend(div);
+      $(".new_comment textarea").val("");
+      $(".new_comment").css("display","")
+    },
+    error:function(jqXHR,textStatus,errorThrown){
+      alert("bad news!"+textStatus+errorThrown)
+
+    }
+  });
+});
