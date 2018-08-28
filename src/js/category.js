@@ -26,6 +26,7 @@ function load_items(url,which) {
       $(".content").html(html);
       get_variants(active_item); //выбранная категория
       items_type(default_type); //грузим данные по разделу типа обуви
+      $(".custom-select").change();
       new LoadItem(goods);
       new Filter(filter_action)
     },
@@ -38,7 +39,7 @@ function load_items(url,which) {
 //изменено
 function items_type(type_id,filter,arr,type) {
   let sex=$("#categories h3 a[class='active']").attr("id");
-  alert(type_id)
+
   let from;
   $.ajax({
     url: "https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
@@ -80,22 +81,48 @@ function items_type(type_id,filter,arr,type) {
             cost_right=true;
           }
           alert(color_consist+","+size_consist+","+cost_right)
-          switch (type){
+          switch (type) {
             case 'cost':
-              if(cost_right)
-                push(from,key);
+              if (cost_right) {
+                console.log("cost")
+                push(from, key);
+              }
             case 'color':
-              if((color_consist)&&(cost_right))
-                push(from,key);
+              if (color_consist) {
+                console.log("color")
+                push(from, key);
+              }
               break;
             case 'size':
-              if((size_consist)&&(cost_right)) {
+              if (size_consist) {
+                console.log("size")
                 push(from, key);
               }
               break;
             case 'color_size':
-              if(((color_consist)&&(size_consist))&&(cost_right))
+              if ((color_consist) && (size_consist)) {
+                console.log("color+size")
+              push(from, key);
+          }
+              break;
+            case 'color_cost':
+              if((color_consist)&&(cost_right)){
+                console.log("color+cost")
                 push(from,key);
+              }
+
+              break;
+            case 'size_cost':
+              if((size_consist)&&(cost_right)) {
+                console.log("size+cost")
+                push(from, key);
+              }
+              break;
+            case 'color_size_cost':
+              if((color_consist)&&(cost_right)&&(size_consist)){
+                console.log("all")
+                push(from,key);
+              }
               break;
           }
         }
@@ -107,16 +134,19 @@ function items_type(type_id,filter,arr,type) {
         div.addClass("col-12 col-xs-2 col-sm-2 col-md-12 col-lg-4 col-xl-4");
         let child_div=$("<div>");
         child_div.addClass("card");
+        child_div.attr("id",key)
         let img=$("<img>");
         img.attr("href","#content");
         img.attr("src",from[key].img);
         img.addClass("card-img-top");
-        img.attr("id",key);
+
         let child_div_div=$("<div>");
         child_div_div.addClass("card-body");
         let p=$("<p>");
         p.addClass("card-text");
-        p.text(from[key].name)
+        p.text(from[key].name);
+        p.attr('data-cost',from[key].cost);
+        p.attr('data-rating',from[key].rating)
         child_div_div.append(p);
         child_div.append(img);
         child_div.append(child_div_div);
@@ -191,10 +221,12 @@ function get_variants(type) {
     }
     default_type=key;
     items_type(key);
-
+    $(".custom-select").change();
+    new LoadItem(goods);
+    new Filter(filter_action)
   });
-
 }
+
 //открытие фильтра
 $("#slider-range").slider({
   range: true,
@@ -204,11 +236,10 @@ $("#slider-range").slider({
   slide: function( event, ui ) {
     $( "#amount" ).val( ui.values[ 0 ] + " р - " + ui.values[ 1 ] +" р");
   }
-},function () {
-  alert("f")
 });
 $( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 ) +" р - " +
   $( "#slider-range" ).slider( "values", 1 ) +" р");
+
 
 //загрузка существующих цветов в фильтр
 function load_filter() {
@@ -299,17 +330,37 @@ function Filter(elem){
     console.log(data);
     console.log(type);
 
-    //нет параметров
-    if((data.sizes.length==0)&&(data.colors.length==0))
-      items_type(type,true,data,"cost");
+    let with_cost=$("#cost_filter").prop('checked');
+      if((data.sizes.length==0)&&(data.colors.length==0)) {
+      //только стоимость
+      if(with_cost) {
+        items_type(type, true, data, "cost");
+      }
+      else{
+        return false;
+      }
+    }
     //оба параметры
-    if((data.sizes.length>0)&&(data.colors.length>0))
-    items_type(type,true,data,"color_size"); //грузим данные по разделу типа обуви
-      //один из
-    else if(data.sizes.length>0)
-      items_type(type,true,data,"size");
-    else if (data.colors.length>0)
-      items_type(type,true,data,"color");
+    else if((data.sizes.length>0)&&(data.colors.length>0)) {
+      if (with_cost)
+        items_type(type, true, data, "color_size_cost"); //грузим данные по разделу типа обуви
+      else
+        items_type(type, true, data, "color_size");
+    }
+    //один из
+    else if(data.sizes.length>0){
+        if (with_cost)
+          items_type(type,true,data,"size_cost");
+        else
+          items_type(type,true,data,"size");
+      }
+
+    else if (data.colors.length>0) {
+        if (with_cost)
+        items_type(type, true, data, "color_cost");
+        else
+          items_type(type, true, data, "color");
+      }
     new LoadItem(goods)
   };
   this.clear=function () {
@@ -317,6 +368,10 @@ function Filter(elem){
     $("#colors a,#sizes a").each(function (i,v) {
       $(v).removeClass("active");
     });
+    $("#cost_filter").removeAttr("checked");
+    $("#slider-range, #cost p").animate({height:"hide"})
+
+
 
   };
   let obj=this;
@@ -345,10 +400,91 @@ function push(from,key){
   child_div_div.addClass("card-body");
   let p=$("<p>");
   p.addClass("card-text");
+  p.attr('data-cost',from[key].cost);
+  p.attr('data-rating',from[key].rating)
   p.text(from[key].name)
   child_div_div.append(p);
   child_div.append(img);
   child_div.append(child_div_div);
   div.append(child_div);
   $("#goods").append(div);
+}
+
+$("#cost_filter").change(function () {
+
+    $("#slider-range, #cost p").animate({height:"toggle"});
+});
+
+//сортировка(выбор)
+$(".custom-select").change(function () {
+  sort_items(this);
+});
+//сортировка
+function sort_items(item){
+    let data=[];
+    $("#goods").children().each(function (i,v) {
+      let cost=Number($(v).children().children().eq(1).children().attr('data-cost'));
+      let rating=Number($(v).children().children().eq(1).children().attr('data-rating'));
+      let item={
+        id:($(v).children().attr("id")),
+        cost:cost,
+        rating:rating,
+        html:$(v).children().html()
+      };
+      data.push(item);
+    });
+    console.log(data);
+    let type=$(item).attr("id");
+    switch (type){
+      case 'category_sort':
+        sort_category($(item).val(),$("#type_sort").val(),data);
+        break;
+      case 'type_sort':
+        sort_category($("#category_sort").val(),$(item).val(),data);
+        break;
+    }
+}
+//по категории
+function sort_category(what,how,data) {
+  let result;
+  switch (what) {
+    case 'cost':
+     result=sort_type(how,data,'cost');
+      break;
+    case 'rating':
+      result=sort_type(how,data,'rating');
+      break;
+  }
+  console.log(result)
+  replace_item(result);
+}
+//возрастание/убывание
+function sort_type(how,data,type) {
+  let result=[];
+  let copy=data.slice(0);
+  switch (how)
+  {
+    case 'ascending':
+      result=copy.sort(function (a,b) {
+        let x=a[type];
+        let y=b[type];
+        return x < y ? -1: x > y ? 1:0;
+      });
+      break;
+    case 'descending':
+      result=copy.sort(function (a,b) {
+        let x=a[type];
+        let y=b[type];
+        return x < y ? 1: x > y ? -1:0;
+      });
+      break;
+  }
+  return result;
+}
+//перестановка отсортированных элементов
+function replace_item(item){
+  $("#goods").children().children().each(function (i,v) {
+    $(v).attr("id",item[i].id);
+    $(v).html(item[i].html)
+  });
 }

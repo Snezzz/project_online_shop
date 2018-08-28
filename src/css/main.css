@@ -45,6 +45,9 @@ footer{
 aside{
   position: relative;
 }
+.logo{
+  text-align: center;
+}
 .logotype {
   position: relative;
   top: 10px;
@@ -53,7 +56,7 @@ aside{
   border-radius: 100px;
 }
 .icon{
-  width: 15%;
+  width: 30px;
 }
 .action img{
   position: relative;
@@ -87,8 +90,8 @@ footer ul{
   margin-top: 20px;
 }
 .item img{
-  width: 500px;
-  height: 500px;
+  width: 70%;
+  height: 70%;
 }
 .item .description{
   position: relative;
@@ -386,8 +389,6 @@ p[data-type='alert']{
 #cost{
   display: inline-block;
   width: 100%;
-  overflow: auto;
-  word-wrap: break-word;
 }
 .card-header{
   padding: 0 0 0 0 !important;
@@ -403,4 +404,16 @@ p[data-type='alert']{
 }
 #filter_action button{
   width:100%;
+}
+#slider-range{
+  margin: 2px 2px 2px 12px
+}
+#slider-range,#cost p{
+  display: none;
+}
+#filter .card-body{
+  margin: 12px 12px 12px 12px;
+}
+#cost{
+  text-align: center;
 }

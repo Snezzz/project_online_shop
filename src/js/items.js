@@ -9,8 +9,7 @@ function LoadItem(elem){
 
     if(e.target.tagName!='IMG')
       return false;
-
-    let id=target.attr("id");
+    let id=target.parent().attr("id");
     alert(id);
     if(id){
       obj.load(id);
@@ -283,3 +282,7 @@ $(".new_comment button").click(function () {
     }
   });
 });
+$("a[data-type='back']").click(function (e) {
+  e.preventDefault();
+
+})

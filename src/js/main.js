@@ -268,8 +268,7 @@ $("#to_main").click(function (e) {
   $(".content").html("")
   $("#left_panel").html("")
   get_content();
-
-})
+});
 
 $(document).ready(function () {
   $(".login").css("display","none");
@@ -277,6 +276,4 @@ $(document).ready(function () {
     current_id=$.cookie('user');
     hide();
   } // сохраняем значение в ключ hide
-
 });
-
