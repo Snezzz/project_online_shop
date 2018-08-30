@@ -1,6 +1,9 @@
 <div class="alert alert-warning" role="alert">
   В корзину ничего не добавлено
 </div>
+<a href="#" data-type="back" ><i class="material-icons">
+  keyboard_backspace
+</i></a>
 <div class="basket_content">
 <table class="table" id="basket">
   <thead class="thead-dark">
@@ -72,4 +75,13 @@
 
 
 </div>
+<script>
+  $(document).ready(function() {
+ //   if(!items)
+    items=JSON.parse($.cookie("items"))
+    get();
+    new Action(basket_action)
+
+  })
+</script>
 <script src="js/work_with_basket.js"></script>

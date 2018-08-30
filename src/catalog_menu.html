@@ -44,5 +44,29 @@
     <h4><a href="#" data-type="spring">Весенняя</a></h4>
   </div>
 </div>
-<script src="js/category.js"></script>
+<script>
+  $(document).ready(function () {
+    var href=window.location.hash.substr(14);
+    var items=href.split("&");
+    var sex=items[0].substr(4);
+    var time=items[1].substr(5);
+    var index=items[2].substr(6);
+
+    //указываем активным главный раздел
+    $("#" + sex).toggleClass("active"); //женская/мужская
+    $(".content").html("");
+    //раскрываем подраздел
+
+    $("#categories").accordion({active: Number(index)});
+    //делаем по умолчанию "летний сезон" выбранным
+    $("#categories div[class*='ui-accordion-content-active'] h4 a[data-type='" + time + "']").addClass('active');
+    load_items("catalog_item");
+    load_filter();
+    $(".custom-select").change();
+
+    new Filter(filter_action)
+  });
+
+</script>
+<script src="js/menu.js"></script>
 

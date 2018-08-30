@@ -84,7 +84,6 @@ footer ul{
 }
 .content{
   margin: 2px 0 10px 0 ;
-  height: 4500px;
 }
 .description{
   margin-top: 20px;
@@ -280,7 +279,11 @@ div .form-group label{
 .user_information .nav-link{
   display: inline !important;
 }
-.row .information,.row .history{
+.user_menu{
+  position: absolute;
+  left:-25%;
+}
+.row .history{
    display: none;
 }
 #cabinet{
@@ -416,4 +419,26 @@ p[data-type='alert']{
 }
 #cost{
   text-align: center;
+}
+.card-body p{
+  text-align: center;
+}
+.rating .star,.item_rating .star{
+  color:gold;
+}
+#product_img{
+  width:inherit;
+
+}
+.item_rating{
+  text-align: center;
+}
+#product_choose ul{
+  position: relative;
+  top: 2%;
+}
+#product_choose .comments{
+  position: relative;
+  top: 5%;
+  left: 8%;
 }

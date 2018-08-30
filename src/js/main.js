@@ -1,5 +1,4 @@
-//загружаем контент
- get_content();
+
 
 //позиционирование панели помощи
 var left=false;
@@ -36,6 +35,7 @@ function get_content(){
     url: "https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
     "5b6be50bfb6fc00289f2c0b8?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
     success:function (data) {
+      number=0;
       from(data,data.ads[0].discounts);
       from(data,data.ads[1].shares);
       from(data,data.ads[2].news);
@@ -48,7 +48,7 @@ function get_content(){
 var number=0;
 //загрузка контента по категориям
 function from(data,obj) {
-  for(key in obj){
+  for(let key in obj){
     let image=$("<img>");
     let src=obj[key].img;
     let text=obj[key].description;
@@ -104,7 +104,7 @@ function CreateForm(elem) {
   this.cabinet=function () {
     $("#left_panel").html("")
     $("#carousel").css("display","none");
-    let nav=$("<nav>");
+    /*let nav=$("<nav>");
     nav.addClass("nav flex-column profile_menu");
     let a=$("<a>");
     a.addClass("nav-link");
@@ -119,8 +119,8 @@ function CreateForm(elem) {
     a.attr("data-for","history")
     nav.append(a);
     $("#left_panel").append(nav);
-
-    load_page('cabinet','.content');
+*/
+    load_page('cabinet','#content');
     load_data(current_id);
     //load_data(current_email);
     new Edit(user_info);
@@ -130,7 +130,7 @@ function CreateForm(elem) {
       let href=$(e.target).attr("data-for");
       switch (href){
         case 'information':$(".information").css("display","flex"); $(".history").css("display",""); break;
-        case 'history': $(".history").css("display","flex"); $(".information").css("display",""); break;
+        case 'history': $(".history").css("display","flex"); $(".information").css("display","none"); break;
       }
     })
     $(".profile_menu a:first-child").click(); //default
@@ -164,6 +164,7 @@ function load(url) {
   $.ajax({
     url: url+".html",
     success:function (html) {
+
       $(".login").html(html);
 
       $(".login a").on("click",function () {
@@ -187,6 +188,12 @@ function load_page(url,where) {
     url: url+".html",
     async:false,
     success:function (html) {
+     // prev_loc= window.location.hash;
+        window.location.hash="#"+url;
+      if(url=='product_info'){
+        window.location.hash= window.location.hash+"?sex="+sex+"&type="+default_type+"&id="+item_id;
+      }
+
       $(where).html(html);
     },
     error:function(jqXHR,textStatus,errorThrown){
@@ -194,21 +201,28 @@ function load_page(url,where) {
     }
   });
 }
+var sex,time,accordeon_index;
 //страница каталога
 function load_category(url,where,id,category) {
- // alert(id)
+ console.log(where,id,category)
   let index;
+  sex=id;
+  time=category;
   switch (id){
     case "female": index=0; break;
     case "male": index=1;break;
   }
+  window.location.hash=url+"?sex="+id+"&time="+category+"&index="+index;
+
+  accordeon_index=index;
   $.ajax({
     url: url+".html",
     async:false,
     success:function (html) {
       //грузим меню
-      $(where).html(html);
 
+      $(where).html(html);
+/*
       //указываем активным главный раздел
       $("#"+id).toggleClass("active"); //женская/мужская
       $(".content").html("");
@@ -216,22 +230,26 @@ function load_category(url,where,id,category) {
       $("#categories").accordion({active:index});
       //делаем по умолчанию "летний сезон" выбранным
       $("#categories div[class*='ui-accordion-content-active'] h4 a[data-type='"+category+"']").addClass('active');
-      //загружаем данные
-        load_items("catalog_item");
-        load_filter(); //для фильтра загрузка существующих цветов и размеров
+ */     //загружаем данные
+ //      load_items("catalog_item");
+
+       // load_filter(); //для фильтра загрузка существующих цветов и размеров
     },
     error:function(jqXHR,textStatus,errorThrown){
       alert("bad news!"+textStatus+errorThrown)
     }
   });
 }
+
 //выбор категории в главном меню
 function ChooseCathegory(elem){
 
   this.female_category=function () {
+
       load_category('catalog_menu','#left_panel','female','summer')
   };
   this.male_category=function () {
+
     load_category('catalog_menu','#left_panel','male','summer')
   };
   this.season=function(who,val) {
@@ -277,3 +295,68 @@ $(document).ready(function () {
     hide();
   } // сохраняем значение в ключ hide
 });
+
+function get_stars(what,rating) {
+  for(let i=0;i<5;i++){
+    let el=$("<i>");
+    el.attr("data-cost",i+1)
+    el.attr("class","material-icons");
+    el.text("star_border");
+    what.append(el);
+  }
+  if(rating){
+    what.children().each(function (i,v) {
+      $(v).attr("data-cost",i+1)
+      $(v).addClass("star")
+      $(v).text("star");
+      if (i==rating-1)
+        return false;
+    })
+  }
+}
+
+
+$(document).ready(function() {
+
+
+  var hash = window.location.hash.substr(1);
+  //начальная страница
+  if(hash=="") {
+    get_content();
+    return false;
+  }
+  alert("hash="+hash);
+  var href = $('#menu li a:first-child,.variants li a').each(function () {
+    var href = $(this).attr('href');
+    // alert(href);
+    if (hash == href.substr(0, href.length - 5)) {
+      var toLoad = hash + ".html";
+      $('#content').load(toLoad)
+    }
+  });
+  //случай с загрузкой каталога(с параметрами ?)
+  let arr=hash.split("?");
+  if(arr.length>1) {
+    hash = arr[0];
+    //alert("new_hash"+hash)
+    if (hash == 'catalog_menu') {
+      var toLoad = hash + ".html?" + arr[1];
+      $('#left_panel').load(toLoad)
+    }
+    if(hash=='product_info'){
+
+      var href=window.location.hash.substr(14);
+      var items=href.split("&");
+      sex=items[0].substr(4);
+      default_type=items[1].substr(5);
+      alert("id="+items[2].substr(3))
+        load_info(items[2].substr(3));
+    //$('#content').load(toLoad)
+    }
+  }
+
+});
+
+var prev_loc;
+//возврат назад
+

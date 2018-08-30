@@ -1,3 +1,9 @@
+<div class="user_menu">
+  <nav class="nav flex-column profile_menu">
+  <a class="nav-link" href="#" data-for="information">Информация</a>
+    <a class="nav-link" href="#" data-for="history">История заказов</a>
+  </nav>
+</div>
 <div class="row information">
   <div class="col-12 col-xs-2 col-sm-2 col-md-4 col-lg-4 col-xl-4 " id="drop-area">
     <h3>Drag and Drop Files Here</h3>
@@ -52,3 +58,19 @@
   </table>
   </div>
 </div>
+
+<script>
+  $(document).ready(function () {
+    load_data(current_id);
+    new Edit(user_info);
+    $(".profile_menu a").click(function (e) {
+      alert("clicked")
+      e.preventDefault();
+      let href=$(e.target).attr("data-for");
+      switch (href){
+        case 'information':$(".information").css("display","flex"); $(".history").css("display",""); break;
+        case 'history': $(".history").css("display","flex"); $(".information").css("display","none"); break;
+      }
+    });
+  })
+</script>

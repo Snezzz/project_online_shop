@@ -1,17 +1,18 @@
-<a href="#" data-type="back">]<i class="material-icons">
+<a href="#" data-type="back" ><i class="material-icons">
   keyboard_backspace
 </i></a>
 <div class="row">
   <!--картинка и все, что рядом с ней-->
   <div class="col-12 col-xs-2 col-sm-2 col-md-3 col-lg-6 col-xl-6" id="product_face">
     <img id="product_img" src=""><a href="" id="btnAddToFavourites"><i class="material-icons">favorite_border</i></a>
-    <div class="rating"></div>
+    <div class="item_rating"></div>
+    <button class="btn btn-warning float-right" data-type="put_rating">Оценить</button>
     <div class="product_information">
       <table class="table">
         <thead>
         <tr>
           <th scope="col"></th>
-          <th scope="col"></th>
+          <th scope="col">Харатеристика</th>
         </tr>
         </thead>
         <tbody>
@@ -28,6 +29,9 @@
       <li class="list-group-item"  data-type="sizes">Размер:</li>
       <li class="list-group-item"><button type="button" class="btn btn-success" id="btnAddToBasket">В корзину</button></li>
     </ul>
+    <div id="dialog" title="">
+      Продолжить выбор/перейти в корзину?
+        </div>
     <div class="comments">
       <div class="panel panel-success">
         <div class="panel-heading">
@@ -46,11 +50,10 @@
     </div>
   </div>
 </div>
-<div id="dialog-message" class="ui-dialog-content ui-widget-content" scrolltop="0" scrollleft="0" style="width: auto; min-height: 0px; height: 55.8px;">
-  <p>
-    <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-    Вы действительно хотите безвозвратно удалить все файлы из папки корзина?
-  </p>
-</div>
+<script>
+  $(document).ready(function () {
+
+  });
+</script>
 <script src="js/items.js"></script>
 

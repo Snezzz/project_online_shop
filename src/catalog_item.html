@@ -13,4 +13,41 @@
 <!--загружаемые товары-->
 <div class="row" id="goods">
 </div>
-<script src="js/category.js"></script>
+<script>
+  $(document).ready(function () {
+    var href=window.location.hash.substr(14);
+    prev_loc=window.location.hash;
+    var items=href.split("&");
+    var sex=items[0].substr(4);
+    var time=items[1].substr(5);
+  //  var type=items[3].substr(5);
+
+    get_variants(time); //выбранная категория
+    href=window.location.hash.substr(14);
+    var items=href.split("&");
+    var type=items[3].substr(5);
+    items_type(type); //грузим данные по разделу типа обуви
+    new LoadItem(goods);
+  });
+/*
+  $(document).ready(function () {
+    alert("ready")
+    var info=window.location.hash.substr(14);
+    var items=info.split("&");
+    var sex=items[0].substr(4);
+    var time=items[1].substr(5);
+    //alert(sex+","+time)
+
+     get_variants(time); //выбранная категория
+     items_type(default_type,null,null,null,sex); //грузим данные по разделу типа обуви
+     $(".custom-select").change();
+     new LoadItem(goods);
+     new Filter(filter_action);
+
+
+
+  //  load_category('catalog_menu','#left_panel',)
+  });
+*/
+</script>
+<script src="js/sort.js"></script>

@@ -1,7 +1,9 @@
 var remember={};
+var item_id;
 function LoadItem(elem){
   this.load=function (what) {
-      remember=load_info(what);
+     remember=load_info(what);
+
   };
   let obj=this;
   $(elem).click(function (e) {
@@ -10,73 +12,36 @@ function LoadItem(elem){
     if(e.target.tagName!='IMG')
       return false;
     let id=target.parent().attr("id");
-    alert(id);
+
     if(id){
       obj.load(id);
     }
   });
 }
 var item_data;
+var item_rating;
 function load_info(what) {
- let active_sex=$("#categories h3[aria-selected='true']").children().eq(1).attr("id");
+
+// let active_sex=$("#categories h3[aria-selected='true']").children().eq(1).attr("id");
+  let active_sex=sex;
   let remember={};
   remember['type']=default_type;
   remember['sex']=active_sex;
   remember['id']=what;
-
   $.ajax({
     url: "https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
     "5b76a085e7179a69ea6076ea?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
     type: "GET",
     async:false,
     success: function (data) {
-
+      item_id=what;
       item_data=data.items.id[default_type][active_sex][what];
-        if(data){
+        if(data) {
+          $("#content").html("");
           $("#left_panel").html("");
-          $("#carousel").css("display","none")
-         load_page("product_info",".content");
-          $("#product_img").attr("src",item_data.img);//загрузка картинки
-          //загрузка рейтинга
-          //
-          $("#product_choose ul li").each(function (i,v) {
-            let span=$("<span>");
-            let type=$(this).attr("data-type");
-            if(type=='name'){
-              $(this).attr('data-product',what)
-            }
-            if(type=='sizes'){
-              for(let i in item_data[type]){
-                let button=$("<a>");
-                button.attr("href","")
-                button.attr("role","button");
-                button.attr("data-size",item_data[type][i])
-                button.attr("class",'btn btn-outline-warning');
-                button.html(item_data[type][i]);
-                span.append(button);
-              }
-            }
-            else if(type=='colors'){
-              for(let i in item_data[type]) {
-                let button = $("<a>");
-                button.attr("href"," ");
-                button.attr("id",item_data[type][i]);
-                button.attr("class", "color");
-                button.css("color",item_data[type][i]);
-                let elem=$("<i>");
-                elem.attr("class","material-icons");
-                elem.text("brightness_1");
-                button.append(elem);
-                span.append(button);
-              }
-
-
-            }
-            else {
-              span.html(item_data[type]);
-            }
-            $(this).append(span);
-          })
+          $("#carousel").css("display", "none");
+          load_page("product_info", ".content");
+          load_data(item_data, what);
         }
         var prev_size;
       $("a[data-size]").click(function (e) {
@@ -108,24 +73,60 @@ function load_info(what) {
   return remember;
 }
 var prev;
-/*$("li[data-type='colors'] button").click(function (e) {
-  e.preventDefault();
-  alert("click")
-  if(prev)
-    $(prev).css( {"height":"",
-      "width": ""});
-  $(e.target).css( {"height":"35px",
-  "width": "35px !important"})
-  prev=e.target;
-})
-*/
+function load_data(item_data,what){
+
+  $("#product_img").attr("src",item_data.img);//загрузка картинки
+  //загрузка рейтинга
+  item_rating=Number(item_data.rating);
+  get_stars($(".item_rating"),Number(item_data.rating));
+  //
+  $("#product_choose ul li").each(function (i,v) {
+    let span=$("<span>");
+    let type=$(this).attr("data-type");
+    if(type=='name'){
+      $(this).attr('data-product',what)
+    }
+    if(type=='sizes'){
+      for(let i in item_data[type]){
+        let button=$("<a>");
+        button.attr("href","")
+        button.attr("role","button");
+        button.attr("data-size",item_data[type][i])
+        button.attr("class",'btn btn-outline-warning');
+        button.html(item_data[type][i]);
+        span.append(button);
+      }
+    }
+    else if(type=='colors'){
+      for(let i in item_data[type]) {
+        let button = $("<a>");
+        button.attr("href"," ");
+        button.attr("id",item_data[type][i]);
+        button.attr("class", "color");
+        button.css("color",item_data[type][i]);
+        let elem=$("<i>");
+        elem.attr("class","material-icons");
+        elem.text("brightness_1");
+        button.append(elem);
+        span.append(button);
+      }
+
+
+    }
+    else {
+      span.html(item_data[type]);
+    }
+    $(this).append(span);
+  })
+}
 function load_comments(data) {
 
   for(let key in data.comments){
     let div=$("<div>");
     div.attr("class","comment");
+    div.css({"margin-bottom":"12px","margin-top":"8px"})
      let item=data.comments[key];
-    console.log(data.comments[key]);
+    //console.log(data.comments[key]);
     load_user(item.user_id,div);//загружаем картинку и имя с фамилией
     let text=data.comments[key].comment;
     let text_div=$("<div>");
@@ -142,7 +143,8 @@ function load_user(what,where) {
     async:false,
     success:function (data) {
         let img=$("<img>");
-        img.src=data.users[what].img;
+        img.attr("src",data.users[what].img);
+        img.css({"width":"20%","float":"left","clear":"both"})
         let name=$("<h3>");
         name.html(data.users[what].name+" "+data.users[what].sirname);
         where.append(img);
@@ -181,6 +183,7 @@ $("#btnAddToFavourites").click(function (e) {
 });
 var amount=1;
 //добавление товара в корзину
+var answer;
 $("#btnAddToBasket").click(function () {
   let change=false;
   let id = $("#product_choose ul li[data-type='name']").attr("data-product");
@@ -206,26 +209,47 @@ $("#btnAddToBasket").click(function () {
     change=true;
   }
     }
-  let answer=confirm("Перейти в корзину?")
+
+//  alert($.cookie("items"))
+  //let answer=confirm("Перейти в корзину?")
+  $('#dialog').dialog("open");
   if(!change){
    let id=product_ID();
     items[id]=item;
   }
-  //items.push(item);
+  $.cookie("items",JSON.stringify(items));
 
-  console.log(items);
+  //if(!answer){
+    //return false;
+  //}
+  //else{
 
-  if(!answer){
-    return false;
-  }
-  else{
-    load_page("basket",".content");
-    get();
-    new Action(basket_action)
     //new ChangeAmount(basket)
-  }
+  //}
 });
-
+$("#dialog").dialog({
+  autoOpen: false,
+  width:'500px',
+  buttons: [
+    {
+      text: "Продолжить покупку",
+      click: function() {
+        answer=false;
+        $( this ).dialog( "close" );
+      }
+    },
+    {
+      text: "Перейти в корзину",
+      click: function() {
+        answer=true;
+        $( this ).dialog( "close" );
+        load_page("basket",".content");
+        //get();
+        //new Action(basket_action)
+      }
+    }
+  ]
+});
 function addToBasket(item) {
   items.push(item);
 }
@@ -282,7 +306,56 @@ $(".new_comment button").click(function () {
     }
   });
 });
-$("a[data-type='back']").click(function (e) {
+/*$("a[data-type='back']").click(function (e) {
   e.preventDefault();
 
 })
+*/
+$("#product_face button[data-type='put_rating']").click(function () {
+
+  $(this).css("display","none");
+  $(".item_rating").html("");
+  get_stars( $(".item_rating"))
+  let prev;
+  let next=true;
+  let data=[];
+  $(".item_rating i").mouseover(function (e) {
+
+    if(prev) {
+      //заходим снаружи
+      if (e.relatedTarget.tagName != 'I') {
+        let num = Number($(e.target).attr("data-cost"));
+        console.log(num)
+        $(".item_rating i").each(function (e, v) {
+          if (Number($(v).attr("data-cost")) == num + 1)
+            return false;
+          else
+            $(v).text("star");
+        });
+        prev = $(e.target);
+        data.push(Number($(e.target).attr("data-cost")));
+        return false;
+      }
+        if ($(e.target).text() == prev.text()) {
+          prev.text("star_border")
+        }
+        else
+          $(e.target).text("star")
+      }
+    else $(e.target).text("star")
+    prev = $(e.target);
+    data.push(Number($(e.target).attr("data-cost")));
+
+  }).click(function (e) {
+    $(".item_rating").html("");
+    let rating=Number($(e.target).attr("data-cost"));
+    console.log(rating+","+item_rating)
+    get_stars($(".item_rating"),(item_rating+rating)/2);
+  });
+});
+//возврат назад
+$("a[data-type='back']").click(function (e) {
+  e.preventDefault();
+ window.location.hash=prev_loc;
+  window.location.reload();
+});

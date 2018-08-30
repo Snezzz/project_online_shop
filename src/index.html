@@ -20,13 +20,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link href = "http://jqueryui.com/resources/demos/style.css">
-
-  </head>
+</head>
 
 <body>
-
   <div class="container-fluid">
-
     <div class="row">
      <header class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
        <div class="row">
@@ -44,21 +41,21 @@
          <div class="col-12 col-xs-2 col-sm-2 col-md-3 col-lg-3 col-xl-3 action" id="action">
            <ul class="variants">
            <li>
-             <a href="" onclick="return false" data-type="login">Log in</a>
+             <a href="login.html" onclick="return false" data-type="login">Log in</a>
              <img class='icon' src="https://cdn3.iconfinder.com/data/icons/social-media-2125/80/enter-128.png" data-type="login">
            </li>
          <li>
-           <a href="" onclick="return false" data-type="registration">Registration</a>
+           <a href="registration.html" onclick="return false" data-type="registration">Registration</a>
            <img class='icon' src="https://cdn1.iconfinder.com/data/icons/freeline/32/lock_locked_log_login_padlock_password_private_protection_register_registration_registry_safe_safety_secret_secure_security-128.png" data-type="registration">
          </li>
          <li>
 
-           <a href="" onclick="return false" data-type="basket">Корзина</a>
+           <a href="basket.html" onclick="return false" data-type="basket">Корзина</a>
            <img class='icon' src="https://cdn4.iconfinder.com/data/icons/thefreeforty/30/thefreeforty_basket-128.png"
                 data-type="basket">
          </li>
              <li id="cabinet">
-               <a href="#" data-type="cabinet">Личный кабинет</a>
+               <a href="cabinet.html"  onclick="return false" data-type="cabinet">Личный кабинет</a>
                <img class='icon' src="http://cdn.onlinewebfonts.com/svg/download_568657.png"
                     data-type="cabinet">
              </li>
@@ -74,36 +71,37 @@
           </div>
         <!-- середина-->
         <div class="col-12 col-xs-2 col-sm-8 col-md-8 col-lg-8 col-xl-8">
-          <ul class="nav nav-pills">
+          <ul class="nav nav-pills" id="menu">
             <li class="nav-item">
-              <a class="nav-link active" id="to_main">Главная</a>
+              <a class="nav-link active" id="to_main" href="#">Главная</a>
             </li>
 
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle"  data-toggle="dropdown" href="#"
                  role="button" aria-haspopup="true" aria-expanded="false">Каталог</a>
               <ul class="dropdown-menu" id="category">
-                <li class="dropdown-submenu" > <a class="nav dropdown-toggle" id="female_category" tabindex="-1" href="#content">Женская обувь</a>
+                <li class="dropdown-submenu" > <a class="nav dropdown-toggle" id="female_category" onclick="return false" tabindex="-1" href="catalog_menu.html">Женская обувь</a>
                   <ul class="dropdown-menu">
-                    <li><a href="#" data-type="summer">Летний сезон</a>
+                    <li><a href="#" data-type="summer" onclick="return false">Летний сезон</a>
                     </li>
-                    <li><a href="#" data-type="winter">Зимний сезон</a>
+                    <li><a href="#" data-type="winter" onclick="return false">Зимний сезон</a>
                     </li>
-                    <li><a href="#" data-type="spring">Весенний сезон</a>
+                    <li><a href="#" data-type="spring" onclick="return false">Весенний сезон</a>
                     </li>
-                    <li><a href="#" data-type="autumn">Осенний сезон</a>
+                    <li><a href="#" data-type="autumn" onclick="return false">Осенний сезон</a>
                     </li>
                   </ul>
                 </li>
-                <li class="dropdown-submenu"> <a class="nav dropdown-toggle"  id="male_category" tabindex="-1" href="#content">Мужская обувь</a>
+                <li class="dropdown-submenu"> <a class="nav dropdown-toggle"  id="male_category" tabindex="-1" onclick="return false"
+                                                 href="catalog_menu.html">Мужская обувь</a>
                   <ul class="dropdown-menu">
-                    <li><a href="#" data-type="summer">Летний сезон</a>
+                    <li><a href="#" data-type="summer" onclick="return false">Летний сезон</a>
                     </li>
-                    <li><a href="#" data-type="winter">Зимний сезон</a>
+                    <li><a href="#" data-type="winter" onclick="return false">Зимний сезон</a>
                     </li>
-                    <li><a href="#" data-type="spring">Весенний сезон</a>
+                    <li><a href="#" data-type="spring" onclick="return false">Весенний сезон</a>
                     </li>
-                    <li><a href="#" data-type="autumn">Осенний сезон</a>
+                    <li><a href="#" data-type="autumn" onclick="return false">Осенний сезон</a>
                     </li>
                   </ul>
                 </li>
@@ -157,7 +155,7 @@
       </aside>
     </main>
 
-    <footer class="col-12 col-xs-2 col-sm-2 col-md-12 col-lg-12 col-xl-12">
+    <footer class="col-12 col-xs-2 col-sm-2 col-md-12 col-lg-12 col-xl-12 ">
       <div class="row">
         <div class="col-12 col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
           <p>Покупателям</p>
@@ -190,17 +188,13 @@
   </div>
   <form class="login">
   </form>
-
   <script src="js/main.js"></script>
   <script src="js/work_with_user.js"></script>
   <script src="js/category.js"></script>
   <script src="js/items.js"></script>
   <script src="js/work_with_basket.js"></script>
-</body>
 <script>
- // window.onbeforeunload = function(e) {
 
-//    return 'Are you sure you want to leave this page?  You will lose any unsaved data.';
-  //};
 </script>
+</body>
 </html>

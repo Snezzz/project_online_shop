@@ -3,6 +3,7 @@
  */
 
 function get() {
+
   let sum=0;
   let i=0;
   check_fullness();
@@ -133,9 +134,10 @@ function get() {
 */
     //items.splice(id, 1);
     delete items[id];
+
     if(Object.keys(items).length==0)
       check_fullness();
-    console.log(items)
+
     $("#basket_action h2").text(get_sum());// пересчитываем
   })
   let h2=$("<h2>");
@@ -156,6 +158,7 @@ function get_sum() {
 }
 function Action(button) {
   this.send=function () {
+    alert(delivery)
     if (!delivery) {
       alert("выберите способ доставки!");
       return false;
@@ -174,6 +177,7 @@ function Action(button) {
     if(!action)
       return false;
     delete items;
+    $.cookie("items",null)
     console.log(items)
     $("#to_main").click();
   };
@@ -193,6 +197,7 @@ var order_ID = function () {
 };
 //есть ли что-либо в корзине
 function check_fullness() {
+  alert(items)
   if(Object.keys(items).length==0){
     $(".alert-warning").css("display","block")
     $(".basket_content").css("display","none")
@@ -203,8 +208,9 @@ function check_fullness() {
   }
 }
 var prev_cost;
-let delivery=false;
+var delivery=false;
 $("#home_delivery").click(function () {
+
   $(".delivery_address").css("display","block");
   $("#place").css("display","");
   prev_cost= Number($("#basket_action h2").text());
@@ -218,6 +224,7 @@ $("#pickup").click(function () {
   $("#place").css("display","block");
   $("#basket_action h2").text(prev_cost)
   delivery=true;
+  alert(delivery)
 });
 //заполнение данных адреса доставки
 var address;
@@ -360,5 +367,9 @@ $("#phone_number").focus(function () {
     }
   });
 });
-
+$("a[data-type='back']").click(function (e) {
+  e.preventDefault();
+  window.location.hash=prev_loc;
+  window.location.reload();
+});
 
