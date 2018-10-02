@@ -1,20 +1,27 @@
 header{
   border: 2px solid black;
-  background-color: #b3d4fc;
+  background-image:url(../6.jpg)
+}
+body{
+  background-image: url("../111.jpg");
+}
+.variants{
+  margin-top: 20px;
 }
 .row{
-  height: 100%;
+  /*height: 100%;*/
 }
 footer{
   bottom: 0;
   border: 2px solid black;
+  background-color: #fbdbd585;
 }
 .container-fluid{
   position: static !important;
 }
 .search .form-inline .form-control{
   float: left;
-  width: 75% !important;
+  width: 100% !important;
 }
 .search{
   top:25%;
@@ -28,10 +35,16 @@ footer{
   z-index:1000;
 }
 .card img{
-  height:160px;
+  height:280px;
+  width:250px;
+  margin: 0 auto;
 }
 .card{
   margin-bottom: 20px;
+  border-radius: 40px !important;
+}
+.card-body{
+  background-color: ivory;
 }
 .list-group-item.active{
   z-index: 0 !important;
@@ -50,9 +63,8 @@ aside{
 }
 .logotype {
   position: relative;
-  top: 10px;
-  width: 40%;
-  /*height: 80%;*/
+  margin: 20px 20px 20px 20px;
+  width: 150px;
   border-radius: 100px;
 }
 .icon{
@@ -85,6 +97,12 @@ footer ul{
 .content{
   margin: 2px 0 10px 0 ;
 }
+.sort select{
+  position: relative;
+  left:30%;
+  margin: 10px 0 10px 0;
+}
+
 .description{
   margin-top: 20px;
 }
@@ -97,9 +115,11 @@ footer ul{
   display: flex;
   word-wrap: break-word;
   white-space: pre-wrap;
+  margin: 0 2px 0 20px;
 }
 .item{
   display: flex;
+  margin: 20px 0 70px 0;
 }
 .content .item:nth-child(2n) .description{
   position: relative;
@@ -107,7 +127,7 @@ footer ul{
 }
 .variants li a{
   text-decoration: none;
-  color: sandybrown;
+  color: #f46060;
   font-weight: 900;
 }
 .nav-pills{
@@ -122,8 +142,22 @@ footer ul{
   color: white;
 }
 
-
-
+#items{
+  margin-bottom: 20px;
+}
+.ui-state-active{
+  background: #ff0000 !important;
+  border: 1px solid darkblue !important;
+}
+#categories div a[data-type][class='active'] {
+  background-color: rgba(255, 0, 0, 0.15) !important;
+}
+.ui-accordion .ui-accordion-content {
+  padding: 1em !important;
+}
+#items a{
+  color: #1200ff !important;
+}
 .dropdown-submenu{
   position:relative;
 }
@@ -187,7 +221,6 @@ footer ul{
 ::-webkit-scrollbar-button {
   background-repeat:no-repeat;
   width:5px;
-  height:60px;
 }
 
 ::-webkit-scrollbar-track {
@@ -204,7 +237,19 @@ footer ul{
 ::-webkit-scrollbar-thumb:hover{
   background-color:#56999f;
 }
-
+.mr-sm-2{
+  margin-right:0 !important;
+}
+.form-inline{
+  position: relative;
+}
+.search .form-inline input{
+  position: absolute;
+}
+.search .form-inline button{
+  position: absolute;
+  right: 0;
+}
 ::-webkit-resizer{
   background-repeat:no-repeat;
   width:4px;
@@ -343,11 +388,23 @@ a[data-size][class*=active]{
 #basket tr th,#basket tbody tr td{
   text-align: center;
 }
+#basket{
+  word-break: break-all;
+}
 #basket_action button{
   float: right;
   margin: 10px 10px 10px 5px;
 }
-
+button[data-type='put_rating']{
+  position: relative;
+  left:35%;
+}
+.product_information{
+  margin-top:20px;
+}
+.list-group-item{
+  background-color: rgba(0,0,0,0) !important;
+}
 .change input{
   text-align: center;
   width: 20px;
@@ -433,12 +490,153 @@ p[data-type='alert']{
 .item_rating{
   text-align: center;
 }
-#product_choose ul{
+#product_choose ul {
   position: relative;
-  top: 2%;
+ /* height: 50%;*/
 }
-#product_choose .comments{
+.comments{
+  border-radius: 12px;
+}
+.comment{
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  border-width: 2px;
+  padding: 5px 5px 5px 5px;
+}
+.comment img{
+  border-radius: 22px;
+  width:62px !important;
+}
+.comment h3{
+  font-size: 24px !important;
+  background-color: rgba(210, 255, 158, 0.49);
+  font-family: Onyx;
+}
+.comment div{
+  background-color: rgba(255, 243, 224, 1);
+}
+.comments div{
+  padding-bottom: 2px;
+  text-align: center;
+}
+#btnAddComment{
   position: relative;
-  top: 5%;
-  left: 8%;
+}
+
+#product_choose .comments {
+  position: relative;
+  margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0.62);
+}
+#product_choose ul li span{
+  position: relative;
+  margin: auto;
+  font-family: Ravie;
+  font-weight: 800;
+  font-size: 18px;
+}
+#product_choose ul li[data-type='cost'] span{
+  position: relative;
+  font-family: Arial;
+  color:rgba(255, 5, 9, 1);
+  margin: auto;
+  font-weight: 900;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px 10px 10px 10px;
+}
+#product_choose ul li[data-type='sizes'],#product_choose ul li[data-type='colors']{
+  text-align: center;
+}
+#product_choose ul li[data-type='sizes'] span,#product_choose ul li[data-type='colors'] span{
+  display: block;
+  margin-top: 12px;
+}
+#product_choose ul li[data-type='sizes'] span a{
+  font-weight: 900;
+  font-family: Arial;
+  margin-left: 2px;
+}
+.list-group-item span{
+  margin-left: 20px;
+}
+.product_information{
+  margin-top: 20px;
+}
+#menu{
+  word-break: break-all;
+}
+@media (min-width: 576px) {
+ .col-sm-12 .variants ul li{
+    display: inline-flex !important;
+    position: relative;
+    left: 20%;
+  }
+
+  .col-sm .variants ul{
+    text-align: center !important;
+  }
+}
+.ui-dialog{
+  border-radius:12px !important;
+  background-color: beige !important;
+}
+.ui-dialog-titlebar{
+  background-color: rgba(171, 201, 130, 1) !important;
+}
+.ui-dialog-titlebar button{
+  background-color: rgba(255, 255, 255, 0.27) !important;
+}
+.ui-dialog-content{
+  text-align: center !important;
+  font-family: Arial !important;
+  font-weight: 700 !important;
+  color:rgba(255, 82, 82, 1) !important;
+}
+.ui-dialog-buttonpane{
+  background-color: rgba(0,0,0,0) !important;
+}
+.ui-dialog-buttonset{
+  position: relative !important;
+  right: 40px !important;
+}
+.ui-button{
+  background-color: rgba(217, 255, 194, 0.63) !important;
+}
+/*смена расположения вспомогательного меню*/
+@media all and (max-width:764px) {
+  .col-sm-12 .variants li{
+    display: inline;
+    font-size: 11px;
+    position: relative;
+    left: 20%;
+  }
+  #basket thead tr th{
+    font-size: 8px;
+  }
+  #btnAddToFavourites i{
+    position: relative;
+    top: -32px;
+    left: -28px;
+  }
+  button[data-type='put_rating']{
+    position: relative;
+    left: 40%;
+  }
+
+}
+
+@media all and (max-width:474px) {
+  #login{
+    left: 20% !important;
+  }
+}
+@media all and (max-width:746px) {
+  #login{
+    left: 30% !important;
+  }
+}
+@media all and (max-width:444px) {
+  .nav{
+    display: block !important;
+  }
 }

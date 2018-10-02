@@ -6,13 +6,13 @@ $(window).on("scroll",function(){
   //pageYOffset = насколько прокручена страница(верх) и прибавляем длину окна для определения нижней части видимой области
   var position=window.pageYOffset+window.innerHeight;
   if($("footer").offset().top<=position){
-
     $(".for_chat").css({"bottom":"200px"})
     $("#chat").css({"bottom":"", "top":"-370px","left":"-38%","transform":"rotate(-90deg)"}).html("Связь с оператором &#9660")
-    $(".chat_body").css({"top":"20px","left":"27%"});
+    $(".chat_body").css({"top":"-250px","left":"27%"});
     left=true;
   }
   else{
+    console.log("d")
     $(".for_chat").css({"bottom":""})
     $("#chat").css({"bottom":"", "top":"","left":"","transform":""}).html("Связь с оператором &#9650")
     $(".chat_body").css({"top":"","left":""});
@@ -21,9 +21,11 @@ $(window).on("scroll",function(){
 
 });
 
+//чат
 $("#chat").click(function () {
   var chat_body= $(".chat_body");
   chat_body.css({"backgroundColor":"red"});
+
   if(!left)
     chat_body.animate({height:'toggle'});
   else
@@ -348,6 +350,7 @@ $(document).ready(function() {
       var href=window.location.hash.substr(14);
       var items=href.split("&");
       sex=items[0].substr(4);
+
       default_type=items[1].substr(5);
       alert("id="+items[2].substr(3))
         load_info(items[2].substr(3));
@@ -356,7 +359,5 @@ $(document).ready(function() {
   }
 
 });
-
 var prev_loc;
-//возврат назад
 

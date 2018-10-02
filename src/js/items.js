@@ -227,6 +227,8 @@ $("#btnAddToBasket").click(function () {
     //new ChangeAmount(basket)
   //}
 });
+
+//
 $("#dialog").dialog({
   autoOpen: false,
   width:'500px',
@@ -356,6 +358,7 @@ $("#product_face button[data-type='put_rating']").click(function () {
 //возврат назад
 $("a[data-type='back']").click(function (e) {
   e.preventDefault();
- window.location.hash=prev_loc;
+  history.go(-2);
+// window.location.hash=prev_loc;
   window.location.reload();
 });

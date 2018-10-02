@@ -57,8 +57,6 @@ function items_type(type_id,filter,arr,type) {
           var color_consist=false;
           var size_consist=false;
           var cost_right=false;
-          console.log(from[key].colors)
-          console.log(from[key].sizes)
           //цвет
           for(let item of from[key].colors) {
             if (arr.colors.indexOf(item)!=-1)
@@ -71,7 +69,6 @@ function items_type(type_id,filter,arr,type) {
           }
 
           let cost=Number(from[key].cost);
-          console.log(cost)
           if((arr.cost[0]<cost)&&(cost<arr.cost[1])){
             cost_right=true;
           }
@@ -79,43 +76,36 @@ function items_type(type_id,filter,arr,type) {
           switch (type) {
             case 'cost':
               if (cost_right) {
-                console.log("cost")
                 push(from, key);
               }
             case 'color':
               if (color_consist) {
-                console.log("color")
                 push(from, key);
               }
               break;
             case 'size':
               if (size_consist) {
-                console.log("size")
                 push(from, key);
               }
               break;
             case 'color_size':
               if ((color_consist) && (size_consist)) {
-                console.log("color+size")
               push(from, key);
           }
               break;
             case 'color_cost':
               if((color_consist)&&(cost_right)){
-                console.log("color+cost")
                 push(from,key);
               }
 
               break;
             case 'size_cost':
               if((size_consist)&&(cost_right)) {
-                console.log("size+cost")
                 push(from, key);
               }
               break;
             case 'color_size_cost':
               if((color_consist)&&(cost_right)&&(size_consist)){
-                console.log("all")
                 push(from,key);
               }
               break;
@@ -329,7 +319,7 @@ function Filter(elem){
 
 function push(from,key){
   let div=$("<div>");
-  div.addClass("col-12 col-xs-2 col-sm-2 col-md-12 col-lg-4 col-xl-4");
+  div.addClass("col-12 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6");
   let child_div=$("<div>");
   child_div.addClass("card");
   child_div.attr("id",key)
