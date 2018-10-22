@@ -15,19 +15,22 @@
 </div>
 <script>
   $(document).ready(function () {
-    var href=window.location.hash.substr(14);
-    prev_loc=window.location.hash;
-    var items=href.split("&");
-     sex=items[0].substr(4);
-    var time=items[1].substr(5);
-  //  var type=items[3].substr(5);
+    if($("#left_panel").html()!="") {
+      var href = window.location.hash.substr(14);
+      prev_loc = window.location.hash;
+      var items = href.split("&");
+      sex = items[0].substr(4);
+      var time = items[1].substr(5);
+      //  var type=items[3].substr(5);
 
-    get_variants(time); //выбранная категория
-    href=window.location.hash.substr(14);
-    var items=href.split("&");
-    var type=items[3].substr(5);
-    items_type(type); //грузим данные по разделу типа обуви
-    new LoadItem(goods);
+      get_variants(time); //выбранная категория
+      href = window.location.hash.substr(14);
+      var items = href.split("&");
+      var type = items[3].substr(5);
+      items_type(type); //грузим данные по разделу типа обуви
+      new LoadItem(goods,null,true);
+    }
+
   });
 /*
   $(document).ready(function () {

@@ -1,9 +1,12 @@
 var remember={};
 var item_id;
-function LoadItem(elem){
+function LoadItem(elem,data,load){
   this.load=function (what) {
-     remember=load_info(what);
 
+    if(load)
+     remember=load_info(what,null,load);
+    else
+      remember=load_info(what,data,false);
   };
   let obj=this;
   $(elem).click(function (e) {
@@ -20,7 +23,7 @@ function LoadItem(elem){
 }
 var item_data;
 var item_rating;
-function load_info(what) {
+function load_info(what,ready_data,load) {
 
 // let active_sex=$("#categories h3[aria-selected='true']").children().eq(1).attr("id");
   let active_sex=sex;
@@ -28,48 +31,43 @@ function load_info(what) {
   remember['type']=default_type;
   remember['sex']=active_sex;
   remember['id']=what;
-  $.ajax({
-    url: "https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
-    "5b76a085e7179a69ea6076ea?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
-    type: "GET",
-    async:false,
-    success: function (data) {
-      item_id=what;
-      item_data=data.items.id[default_type][active_sex][what];
-        if(data) {
+  if(load) {
+    no_search=true;
+    $.ajax({
+      url: "https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
+      "5b76a085e7179a69ea6076ea?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+      type: "GET",
+      async: false,
+      success: function (data) {
+        item_id = what;
+        item_data = data.items.id[default_type][active_sex][what];
+        if (data) {
           $("#content").html("");
           $("#left_panel").html("");
           $("#carousel").css("display", "none");
           load_page("product_info", ".content");
           load_data(item_data, what);
         }
-        var prev_size;
-      $("a[data-size]").click(function (e) {
-        e.preventDefault();
-        if(prev_size){
-          $(prev_size).toggleClass("active");
-        }
 
-        $(this).toggleClass("active");
-        prev_size=e.target;
-      });
-      $(".color").click(function (e) {
-        e.preventDefault();
-        if(prev) {
-          $(prev).parent().removeAttr("active");
-          $(prev).css("font-size", "");
-        }
-        $(e.target).css( "font-size","32px")
-        $(this).attr("active","");
-        prev=e.target;
-      });
-        load_description(item_data.main_information,".product_information");
-        load_comments(item_data);
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert("bad news!" + textStatus + errorThrown)
-    }
-  });
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert("bad news!" + textStatus + errorThrown)
+      }
+    });
+  }
+  else{
+    no_search=false;
+    let remember={};
+    item_data=ready_data[what];
+    remember=item_data;
+    $("#carousel").css("display", "none");
+    load_page("product_info", ".content");
+    load_data(ready_data[what], what);
+  }
+  console.log(item_data)
+  load_description(item_data['main_information'],".product_information");
+  load_comments(item_data);
+
   return remember;
 }
 var prev;
@@ -117,7 +115,27 @@ function load_data(item_data,what){
       span.html(item_data[type]);
     }
     $(this).append(span);
-  })
+  });
+  var prev_size;
+  $("a[data-size]").click(function (e) {
+    e.preventDefault();
+    if(prev_size){
+      $(prev_size).toggleClass("active");
+    }
+
+    $(this).toggleClass("active");
+    prev_size=e.target;
+  });
+  $(".color").click(function (e) {
+    e.preventDefault();
+    if(prev) {
+      $(prev).parent().removeAttr("active");
+      $(prev).css("font-size", "");
+    }
+    $(e.target).css( "font-size","32px")
+    $(this).attr("active","");
+    prev=e.target;
+  });
 }
 function load_comments(data) {
 
@@ -198,8 +216,8 @@ $("#btnAddToBasket").click(function () {
     return false;
   }
   let name = $("#product_choose ul li[data-type='name']").text();
-
   let item = {id: id, name: name, size: size, color: color, cost: cost,amount:1};
+
   //проверка на совпадение
   for (let key in items){
     if((items[key].id==item.id)&&(items[key].name==item.name)&&(items[key].size==item.size)&&(items[key].color==item.color)){
@@ -209,23 +227,14 @@ $("#btnAddToBasket").click(function () {
     change=true;
   }
     }
-
-//  alert($.cookie("items"))
-  //let answer=confirm("Перейти в корзину?")
   $('#dialog').dialog("open");
   if(!change){
    let id=product_ID();
     items[id]=item;
   }
+  console.log("JSON:"+JSON.stringify(items));
   $.cookie("items",JSON.stringify(items));
 
-  //if(!answer){
-    //return false;
-  //}
-  //else{
-
-    //new ChangeAmount(basket)
-  //}
 });
 
 //
@@ -358,7 +367,11 @@ $("#product_face button[data-type='put_rating']").click(function () {
 //возврат назад
 $("a[data-type='back']").click(function (e) {
   e.preventDefault();
-  history.go(-2);
+  if(no_search) {
+    history.go(-2);
 // window.location.hash=prev_loc;
-  window.location.reload();
+    window.location.reload();
+  }
+  else
+  load_result();
 });

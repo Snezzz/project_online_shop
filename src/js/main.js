@@ -2,13 +2,15 @@
 
 //позиционирование панели помощи
 var left=false;
+var no_search=true;
+var home_href="localhost:63342/shop/src/index.html";
 $(window).on("scroll",function(){
   //pageYOffset = насколько прокручена страница(верх) и прибавляем длину окна для определения нижней части видимой области
   var position=window.pageYOffset+window.innerHeight;
   if($("footer").offset().top<=position){
     $(".for_chat").css({"bottom":"200px"})
-    $("#chat").css({"bottom":"", "top":"-370px","left":"-38%","transform":"rotate(-90deg)"}).html("Связь с оператором &#9660")
-    $(".chat_body").css({"top":"-250px","left":"27%"});
+    $("#chat").css({"bottom":"", "top":"-170px","left":"-38%","transform":"rotate(-90deg)"}).html("Связь с оператором &#9660")
+    $(".chat_body").css({"top":"-50px","left":"27%"});
     left=true;
   }
   else{
@@ -36,6 +38,7 @@ function get_content(){
   $.ajax({
     url: "https://api.mongolab.com/api/1/databases/mydatabase/collections/market/" +
     "5b6be50bfb6fc00289f2c0b8?apiKey=_6BDigQllIiJle4PerntiNKhm2-7vI0I",
+    async:false,
     success:function (data) {
       number=0;
       from(data,data.ads[0].discounts);
@@ -50,6 +53,7 @@ function get_content(){
 var number=0;
 //загрузка контента по категориям
 function from(data,obj) {
+
   for(let key in obj){
     let image=$("<img>");
     let src=obj[key].img;
@@ -282,11 +286,13 @@ function ChooseCathegory(elem){
 }
 new ChooseCathegory(category)
 
+//на главную страницу
 $("#to_main").click(function (e) {
   e.preventDefault();
-  $("#carousel").css("display","")
-  $(".content").html("")
-  $("#left_panel").html("")
+  $("#carousel").css("display","");
+  $(".content").html("");
+  $("#left_panel").html("");
+  history.replaceState(null,null,'?');
   get_content();
 });
 
@@ -320,14 +326,26 @@ function get_stars(what,rating) {
 
 $(document).ready(function() {
 
-
+//#
   var hash = window.location.hash.substr(1);
+  //?...
+  let param=window.location.search;
+  let what;
+  if(param)
+  what=param.split("=")[1];
+
+  //случай поиска
+  if(param.split("=")[0].substr(1)=="search"){
+    search(what);
+    return false;
+  }
+
   //начальная страница
   if(hash=="") {
     get_content();
     return false;
   }
-  alert("hash="+hash);
+  //alert("hash="+hash);
   var href = $('#menu li a:first-child,.variants li a').each(function () {
     var href = $(this).attr('href');
     // alert(href);
@@ -352,12 +370,13 @@ $(document).ready(function() {
       sex=items[0].substr(4);
 
       default_type=items[1].substr(5);
-      alert("id="+items[2].substr(3))
+      //alert("id="+items[2].substr(3))
         load_info(items[2].substr(3));
     //$('#content').load(toLoad)
     }
   }
 
 });
+
 var prev_loc;
 

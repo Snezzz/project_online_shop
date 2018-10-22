@@ -12,9 +12,14 @@ body{
   /*height: 100%;*/
 }
 footer{
+  /*position: fixed !important;*/
   bottom: 0;
   border: 2px solid black;
-  background-color: #fbdbd585;
+  background-color: rgba(209, 250, 204, 0.58);
+
+}
+footer a{
+  color:rgba(199, 0, 0, 1) !important;
 }
 .container-fluid{
   position: static !important;
@@ -344,9 +349,13 @@ div .form-group label{
 .variants li{
   text-align: right;
 }
+main{
+  margin-bottom: 110px;
+}
 #goods{
   overflow-y: auto;
   max-height: 800px;
+  margin-bottom: 110px;
 }
 input[value='Фильтр']{
   margin-bottom: 10px;
@@ -388,8 +397,31 @@ a[data-size][class*=active]{
 #basket tr th,#basket tbody tr td{
   text-align: center;
 }
-#basket{
-  word-break: break-all;
+td[class='change'] button{
+   width:10px;
+}
+.delivery{
+  text-align: center;
+}
+.delivery label:first-child{
+  font-weight: 800;
+}
+.form-check-input{
+  margin-left: 0 !important;
+}
+.delivery .form-check select, .delivery_address input,.delivery_address button{
+  display: block;
+  position: relative;
+  margin: 2px auto 4px;
+}
+#basket_action {
+  text-align: right;
+}
+#basket_action span{
+  margin-right: 29px;
+}
+#basket_action h2{
+  margin-right: 32px;
 }
 #basket_action button{
   float: right;
@@ -441,7 +473,7 @@ p[data-type='alert']{
   display: none;
 }
 #carousel{
-  height:200px;
+  height:300px;
 }
 .carousel-item{
   height: inherit;
@@ -535,6 +567,14 @@ p[data-type='alert']{
   font-weight: 800;
   font-size: 18px;
 }
+
+/*#basket tbody{
+  fonr-size:13px;
+}
+#basket thead{
+  font-size: 12px;
+}
+*/
 #product_choose ul li[data-type='cost'] span{
   position: relative;
   font-family: Arial;
@@ -562,16 +602,17 @@ p[data-type='alert']{
 .product_information{
   margin-top: 20px;
 }
-#menu{
-  word-break: break-all;
-}
+
+
 @media (min-width: 576px) {
  .col-sm-12 .variants ul li{
     display: inline-flex !important;
     position: relative;
-    left: 20%;
+    left: 10%;
   }
+  footer .row{
 
+  }
   .col-sm .variants ul{
     text-align: center !important;
   }
@@ -610,9 +651,10 @@ p[data-type='alert']{
     position: relative;
     left: 20%;
   }
-  #basket thead tr th{
+ /* #basket thead tr th{
     font-size: 8px;
   }
+  */
   #btnAddToFavourites i{
     position: relative;
     top: -32px;

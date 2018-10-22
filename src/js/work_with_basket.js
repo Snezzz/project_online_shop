@@ -2,18 +2,20 @@
  * Created by Снежа on 19.08.2018.
  */
 
+//заполнение таблицы по корзине
 function get() {
-
   let sum=0;
   let i=0;
   check_fullness();
-
+  //не добавляем, а обновляем список
+  $("#basket tbody").html("");
   for(let el in items){
-
     let tr=$("<tr>");
     tr.attr("id",el);
+    //по каждому товару
     for(let key in items[el]){
       let td=$("<td>");
+      //цвет
       if(key=='color'){
         let elem=$("<i>");
         elem.attr("class","material-icons");
@@ -21,6 +23,7 @@ function get() {
         elem.css("color",items[el][key]);
         td.append(elem);
       }
+      //стоимость
       if(key=='cost'){
         let cost=Number(items[el][key]);
         sum=sum+cost*items[el].amount;
@@ -101,9 +104,11 @@ function get() {
 
 
   })
-  //убрать
+
+  //убрать из списка
   $(".delete").click(function (e) {
     e.preventDefault();
+
     let tr= $(this).parent().parent();
     console.log(tr);
     let id=tr.attr("id");
@@ -125,6 +130,38 @@ function get() {
     console.log(to_remember);
     */
       $(this).parent().parent().remove();
+    $.cookie("items",null);
+    //alert($.cookie("items"));
+    let descriprion={};
+    let data=$("#basket tbody tr");
+
+    data.each(function (e,v) {
+      let id=$(v).children().eq(0).text();
+      let name=$(v).children().eq(1).text();
+      let size=$(v).children().eq(2).text();
+      let color=$(v).children().eq(3).text();
+      let cost=$(v).children().eq(4).text();
+      let count=$($(v).children().eq(5)).children().eq(1).val();
+      let item={
+        id:id,
+        name:name,
+        size:size,
+        color:color,
+        cost:cost,
+        amount:count
+      };
+   /*   let item={
+        product_id:name,
+        size:size,
+        color:color,
+        cost:cost,
+        count:count
+      };
+*/
+      descriprion[name]=item;
+    });
+    $.cookie("items",JSON.stringify(descriprion));
+
     /*$("#replace").click(function(e){
       e.preventDefault();
       $(this).parent().parent().children().each(function (e,v) {
@@ -197,13 +234,14 @@ var order_ID = function () {
 };
 //есть ли что-либо в корзине
 function check_fullness() {
-  alert(items)
-  if(Object.keys(items).length==0){
-    $(".alert-warning").css("display","block")
+  //if((Object.keys(items).length==0)||(items==null)){
+  if(!items){
+    $(".alert-warning").css("display","block");
     $(".basket_content").css("display","none")
+    $(".content a[data-type='back']").css("display","none");
   }
   else {
-    $(".alert-warning").css("display","")
+    $(".alert-warning").css("display","");
     $("#basket_content").css("display","")
   }
 }
@@ -369,7 +407,7 @@ $("#phone_number").focus(function () {
 });
 $("a[data-type='back']").click(function (e) {
   e.preventDefault();
-  window.location.hash=prev_loc;
-  window.location.reload();
+  //window.location.hash=prev_loc;
+  //window.location.reload();
 });
 
